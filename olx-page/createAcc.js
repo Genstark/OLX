@@ -56,6 +56,10 @@ function createAccount(){
     checkingData();
 }
 
+const homePage = document.querySelector('.homepage');
+homePage.addEventListener('click', () => {
+    location.href = '../index.html';
+});
 
 const checkbox = document.getElementById('checkbox');
 checkbox.addEventListener('change', () => {
