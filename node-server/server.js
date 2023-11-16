@@ -15,6 +15,8 @@ app.use(cors({
 }));
 
 
+const uri = "mongodb+srv://gy523314:%40genwarrior123%40@cluster0.3e0eraj.mongodb.net/?retryWrites=true&w=majority/Student_Database";
+
 const PORT = 2000;
 
 app.get('/', (req, res) => {
@@ -23,7 +25,6 @@ app.get('/', (req, res) => {
 
 
 async function addDataMongodb(userdata){
-    const uri = "mongodb+srv://gy523314:%40genwarrior123%40@cluster0.3e0eraj.mongodb.net/?retryWrites=true&w=majority/Student_Database";
     const client = new MongoClient(uri);
 
     try{
@@ -57,7 +58,6 @@ app.post('/', (req, res) => {
 
 
 async function loginDataMongodb(useremail){
-    const uri = "mongodb+srv://gy523314:%40genwarrior123%40@cluster0.3e0eraj.mongodb.net/?retryWrites=true&w=majority/Student_Database";
     const client = new MongoClient(uri);
 
     try{
@@ -81,16 +81,24 @@ app.post('/login', (req, res) => {
     loginDataMongodb(postData['email']).then(data => {
         const mongoData = data;
         console.log(mongoData);
-        if(mongoData['UserEmail'] === postData['email'] && mongoData['Password'] === postData['password']){
-            res.json({
-                message: "email and password is correct",
-                done: true
-            });
+        if(mongoData !== null){
+            if(mongoData['UserEmail'] === postData['email'] && mongoData['Password'] === postData['password']){
+                res.json({
+                    message: "email and password is correct",
+                    done: true
+                });
+            }
+            else{
+                res.json({
+                    message: "wrong email or password",
+                    done: false
+                });
+            }
         }
         else{
             res.json({
-                message: "wrong email or password",
-                done: false
+                message: 'Invlaid Data',
+                done: null
             });
         }
     }).catch(err => {
@@ -122,7 +130,10 @@ function generateId(){
     return result;
 }
 
-//post sign in
-//post login
-//get profile
-//post update password
+
+/*
+/user           (get all data for landing or homepage)
+/user/id        (get data of dingle product and single user)
+/user/login     (when user login)
+/user/signIn    (when user create new account)
+*/
