@@ -1,3 +1,13 @@
 .homepage{
     cursor: pointer;
 }
+
+.mousepointer{
+    font-weight: bold;
+    color: gray;
+}
+
+.mousepointer:hover{
+    cursor: pointer;
+    text-decoration: underline;
+}

@@ -12,7 +12,7 @@
 
     <header>
         <div class="bg-secondary">
-            <h1 class="text-center pt-2 pb-2">OLX</h1>
+            <h1 class="text-center pt-2 pb-2" id="heading">OLX</h1>
         </div>
     </header>
 
@@ -20,7 +20,7 @@
         <div class="container-fluid">
             <div class="border d-flex justify-content-center">
                 <div class="d-flex justify-content-center">
-                    <img src="../femaleStudent.png" alt="" class="">
+                    <img src="../image.png" alt="" class="image">
                 </div>
             </div>
             <div class="border mt-1">
@@ -33,22 +33,40 @@
                 </div>
             </div>
 
-            <div class="d-flex">
+            <div class="d-flex justify-content-center mt-3">
+                <div class="border w-100 d-flex" title="seller contact">
+                    <img src="../image.png" alt="seller image" class="seller-image">
+                    <div>
+                        <p class="pt-2 text-start seller-name fw-bold ms-5 mt-4">Seller Name: John Doe</p>
+                        <p class="pt-2 text-start seller-contact ms-5">Contact Number: +91</p>
+                        <!-- <a class="pt-2 text-dark border border-danger ms-5 chat-box">Chat with seller</a> -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex mt-3">
                 <div class="border w-50">
                     <h3 class="mt-2 ms-2 fw-bold">Overview</h3>
-                    <textarea class="mt-1 ms-2 border" rows="5" cols="82" placeholder="Overview of your product"></textarea>
+                    <textarea class="mt-1 ms-2 border overview-textarea" placeholder="Overview of your product"></textarea>
                 </div>
                 
                 <div class="border w-50">
                     <h2 class="fw-bold mt-2 ms-4">Rs: 1,000</h2>
-                    <p class="ms-4 fw-bolder">IPhone 15, 256GB storage space gray</p>
-                    <p class="ms-4">Address</p>
-                    <p class="ms-4">State/ City</p>
-                    <p class="ms-4">Time</p>
-                </div>  
+                    <p class="ms-4 fw-bolder overview-height">IPhone 15, 256GB storage space gray</p>
+                    <p class="ms-4 samll-detail">Address</p>
+                    <p class="ms-4 samll-detail">State/ City</p>
+                    <p class="ms-4 samll-detail">Time</p>
+                </div>
+            </div>
+
+            <div class="border mt-3">
+                <h3 class="mt-2 ms-2 fw-bold">Details</h3>
+                <textarea class="mt-1 ms-2 border detail-textarea" id="autoHeightTextarea" placeholder="Details of your product" oninput="auto_grow(this)"></textarea>
             </div>
         </div>        
     </main>
 
+
+    <script src="./productdetail.js"></script>
 </body>
 </html>
