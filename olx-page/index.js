@@ -1,16 +1,16 @@
 const card1 = document.getElementById('card1');
 card1.addEventListener('click', () => {
-    location.href = '/productdetail.html';
+    location.href = '/olx-page/productdetail.html';
 });
 
 const card2 = document.getElementById('card2');
 card1.addEventListener('click', () => {
-    location.href = '/productdetail.html';
+    location.href = '/olx-page/productdetail.html';
 });
 
 const card3 = document.getElementById('card3');
 card1.addEventListener('click', () => {
-    location.href = '/productdetail.html';
+    location.href = '/olx-page/productdetail.html';
 });
 
 

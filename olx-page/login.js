@@ -85,6 +85,11 @@ function loginAccount(){
                 email.classList.remove('border-danger');
                 password.classList.remove('border-danger');
             }
+            else if(data['done'] === null){
+                console.log(data);
+                email.classList.remove('border-danger');
+                password.classList.remove('border-danger');
+            }
             else{
                 console.log(data);
                 email.classList.add('border-danger');

@@ -1,3 +1,7 @@
+#heading{
+    cursor: pointer;
+}
+
 .testing{
     justify-content: space-between;
 }
