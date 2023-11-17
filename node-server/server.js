@@ -3,7 +3,7 @@ const cors = require('cors');
 const app = express();
 const { MongoClient } = require('mongodb');
 const multer = require('multer');
-
+const CryptoJS = require("crypto-js");
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -19,8 +19,36 @@ const uri = "mongodb+srv://gy523314:%40genwarrior123%40@cluster0.3e0eraj.mongodb
 
 const PORT = 2000;
 
+
+async function getMongodbData(){
+    const client = new MongoClient(uri);
+
+    try{
+        // Connect to the MongoDB cluster
+        await client.connect();
+        // Make the appropriate changes in your code here
+        const db = client.db('olx');
+        const collection = db.collection('user_data');
+        return await collection.find({}, { writeConcern: { w: 'majority' } }).toArray();
+    }
+    finally{
+        // Close connection to the MongoDB cluster
+        await client.close();
+    }
+}
+
 app.get('/', (req, res) => {
+    getMongodbData().then(data => {
+        res.json({
+            data: data,
+            message: "success"
+        });
+    }).catch(error => {
+        console.log(error);
+    });
+
     console.log('send all data in get request');
+
 });
 
 
@@ -41,9 +69,15 @@ async function addDataMongodb(userdata){
     }
 }
 
-app.post('/', (req, res) => {
+
+app.post('/signIn', (req, res) => {
     const userData = req.body;
+
+    const passwordEncrypted = Encryption(userData['Password']);
+
     userData['_id'] = generateId();
+    userData['Password'] = passwordEncrypted;
+
     console.log(userData);
 
     addDataMongodb(userData).then(data => {
@@ -77,12 +111,14 @@ async function loginDataMongodb(useremail){
 
 app.post('/login', (req, res) => {
     const postData = req.body;
+    console.log(postData);
 
     loginDataMongodb(postData['email']).then(data => {
         const mongoData = data;
         console.log(mongoData);
+
         if(mongoData !== null){
-            if(mongoData['UserEmail'] === postData['email'] && mongoData['Password'] === postData['password']){
+            if(mongoData['UserEmail'] === postData['email'] && Decrypt(mongoData['Password']) === postData['password']){
                 res.json({
                     message: "email and password is correct",
                     done: true
@@ -97,7 +133,7 @@ app.post('/login', (req, res) => {
         }
         else{
             res.json({
-                message: 'Invlaid Data',
+                message: 'Invalid Data',
                 done: null
             });
         }
@@ -105,6 +141,30 @@ app.post('/login', (req, res) => {
         console.log(err);
     });
 });
+
+
+const storage = multer.memoryStorage();
+const upload = multer({storage: storage});
+
+
+// const storage = multer.diskStorage({
+//     destination: function (req, file, cb) {
+//         cb(null, 'uploads/'); // Set the destination folder for uploaded files
+//     },
+//     filename: function (req, file, cb) {
+//         cb(null, Date.now() + '-' + file.originalname); // Set the file name
+//     }
+// });
+  
+// const upload = multer({ storage: storage });
+
+app.post('/addProduct', upload.array('files'),(req, res) => {
+    console.log(req.files)
+    res.json({
+        message: 'success'
+    })
+});
+
 
 app.put('/', (req, res) => {
     console.log('req for changes in current data');
@@ -121,14 +181,31 @@ app.listen(PORT, () => {
 
 
 /*---------------------------------------------------------------------------------------------*/
+
+function Encryption(password){
+    const ciphertext = CryptoJS.AES.encrypt(password, 'secret key 123').toString();
+    return ciphertext;
+}
+
+
+function Decrypt(passowrd){
+    const bytes = CryptoJS.AES.decrypt(passowrd, 'secret key 123');
+    const plaintext = bytes.toString(CryptoJS.enc.Utf8);
+    return plaintext;
+}
+
+
+/*---------------------------------------------------------------------------------------------*/
 function generateId(){
     const character = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    var result = "";
-    for(let i=0; i < 12; i++){
+    let result = "";
+    for(let i=0; i < 15; i++){
         result += character[Math.floor(Math.random()*character.length)];
     }
     return result;
 }
+/*---------------------------------------------------------------------------------------------*/
+
 
 
 /*
