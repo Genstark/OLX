@@ -1,6 +1,6 @@
 const registration = document.getElementById('registration');
 registration.addEventListener('click', () => {
-    location.href = './createAcc.html';
+    location.href = './signIn.html';
 });
 
 const homePage = document.querySelector('.homepage');
@@ -53,7 +53,7 @@ function gettingData(){
 
 function loginAccount(){
     const data = gettingData();
-
+    
     if(data === false){
         return;
     }
@@ -75,6 +75,7 @@ function loginAccount(){
         const loginButton = document.getElementById('loginButton');
 
         loginButton.textContent = 'Wait....';
+        loginButton.style.cursor = 'wait';
 
         fetch(apiUrl,options).then(res => {
             return res.json();
@@ -87,8 +88,8 @@ function loginAccount(){
             }
             else if(data['done'] === null){
                 console.log(data);
-                email.classList.remove('border-danger');
-                password.classList.remove('border-danger');
+                email.classList.add('border-danger');
+                password.classList.add('border-danger');
             }
             else{
                 console.log(data);
@@ -97,11 +98,18 @@ function loginAccount(){
             }
             
             loginButton.textContent = 'Login';
+            loginButton.style.cursor = '';
         });
     }
 }
 
+document.addEventListener("keypress", (event) => {
+    if (event.key === "Enter") {
+        loginAccount();
+    }
+});
+
 function validateEmail(email) {
-    let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailPattern.test(email);
 }

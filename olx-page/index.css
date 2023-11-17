@@ -1,7 +1,16 @@
 .heading{
     height: 50px;
+    cursor: pointer;
 }
 
 .row-distro{
     justify-content: space-between;
+}
+
+.cardclass{
+    width: 18rem;
+    /* margin: auto; */
+    border: none !important;
+    box-shadow: 2px 4px 6px rgba(0,0,0,.3);
+    transition: all .2s ease-in-out;
 }
