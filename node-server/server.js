@@ -56,18 +56,38 @@ async function addDataMongodb(userdata){
     const client = new MongoClient(uri);
 
     try{
-        // Connect to the MongoDB cluster
         await client.connect();
-        // Make the appropriate changes in your code here
+
         const db = client.db('olx');
         const collection = db.collection('user_data');
+
         await collection.insertOne(userdata, { writeConcern: { w: 'majority' } });
     }
     finally{
-        // Close connection to the MongoDB cluster
         await client.close();
     }
 }
+
+
+async function getUserData(){
+    const client = new MongoClient(uri);
+
+    try{
+        await client.connect();
+
+        const db = client.db('olx');
+        const collection = db.collection('user_data');
+
+        await collection.findOne({id: 'userId'});
+    }
+    finally{
+        await client.close();
+    }
+}
+
+app.get('/userId', (req, res) => {
+
+});
 
 
 app.post('/signIn', (req, res) => {
@@ -143,23 +163,50 @@ app.post('/login', (req, res) => {
 });
 
 
+
+async function userAddSellProduct(){
+    const client = new MongoClient(uri);
+
+    try{
+        // Connect to the MongoDB cluster
+        await client.connect();
+        // Make the appropriate changes in your code here
+        const db = client.db('olx');
+        const collection = db.collection('user_data');
+
+        const sellProduct = {
+            $set: {
+                product:{
+                    'brandName': 'brandName',
+                    'productType': 'productType',
+                    'Address': 'address',
+                    'phoneNumber': 'phoneNumber',
+                    'state': 'state',
+                    'city': 'city',
+                    'price': 'price',
+                    'image-1': 'image-1',
+                    'image-2': 'image-2',
+                    'image-3': 'image-3',
+                    'overview': 'overview',
+                    'details': 'details'
+                }
+            }
+        }
+        await collection.findOneAndUpdate({_id: 'userUniqueid'}, sellProduct);
+    }
+    finally{
+        // Close connection to the MongoDB cluster
+        await client.close();
+    }
+}
+
+
 const storage = multer.memoryStorage();
 const upload = multer({storage: storage});
 
 
-// const storage = multer.diskStorage({
-//     destination: function (req, file, cb) {
-//         cb(null, 'uploads/'); // Set the destination folder for uploaded files
-//     },
-//     filename: function (req, file, cb) {
-//         cb(null, Date.now() + '-' + file.originalname); // Set the file name
-//     }
-// });
-  
-// const upload = multer({ storage: storage });
-
-app.post('/addProduct', upload.array('files'),(req, res) => {
-    console.log(req.files)
+app.post('/addProduct', upload.array('files', 3),(req, res) => {
+    console.log(req.files[0]);
     res.json({
         message: 'success'
     })
