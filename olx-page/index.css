@@ -7,10 +7,12 @@
     justify-content: space-between;
 }
 
-.cardclass{
-    width: 18rem;
-    /* margin: auto; */
-    border: none !important;
-    box-shadow: 2px 4px 6px rgba(0,0,0,.3);
-    transition: all .2s ease-in-out;
+.bottom-text{
+    position: absolute;
+    bottom: 0px;
+}
+
+.span-height{
+    text-align: end;
+    font-weight: bold;
 }

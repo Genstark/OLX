@@ -7,10 +7,6 @@ function checkData(){
     const city = document.getElementById('city');
     const price = document.getElementById('price');
     const image1 = document.getElementById('image1');
-    const image2 = document.getElementById('image2');
-    const image3 = document.getElementById('image3');
-    const image4 = document.getElementById('image4');
-    const image5 = document.getElementById('image5');
     const overview = document.getElementById('overview');
     const details = document.getElementById('details');
 
@@ -80,7 +76,7 @@ function checkData(){
             'price' : price.value,
             'overview' : overview.value,
             'details' : details.value
-        }
+        };
 
         return productData;
     }
@@ -88,15 +84,42 @@ function checkData(){
 
 
 function addProduct(){
-    const image1 = document.getElementById('images1');
-
+    const image = document.getElementById('images1');
     // Create a FormData object and append files
     let formData = new FormData();
-    formData.append('files', image1.files[0]);
-    formData.append('files', image1.files[1]);
-    formData.append('files', image1.files[2]);
-    formData.append('files', image1.files[3]);
-    formData.append('files', image1.files[4]);
+    
+    formData.append('brandname', );
+    formData.append('files', image.files[0]);
+    formData.append('files', image.files[1]);
+    formData.append('files', image.files[2]);
+
+    // if(image.files[0].type === 'image/jpeg' || image.files[0].type === 'image/png'){
+    //     formData.append('files', image.files[0]);
+    // }
+    
+    // if(image.files[1].type === 'image/jpeg' || image.files[1].type === 'image/png'){
+    //     formData.append('files', image.files[1]);
+    // }
+
+    // if(image.files[2].type === 'image/jpeg' || image.files[2].type === 'image/png'){
+    //     formData.append('files', image.files[0]);
+    // }
+
+    // for(let i=0; i < image1.files.length; i++){
+    //     if(i === 3){
+    //         break;
+    //     }
+    //     else{
+    //         let fileType = image1.files[i].type;
+    //         if(image1.files[i].type === 'image/png' || image1.files[i].type === 'image/jpeg'){
+    //             console.log(image1.files[i].name);
+    //             formData.append('files', image1.files[i]);
+    //         }
+    //         else{
+    //             console.log('this is not image', i)
+    //         }
+    //     }
+    // }
 
     const apiUrl = 'http://localhost:2000/addProduct';
 

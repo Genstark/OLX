@@ -65,15 +65,26 @@ function createAccount(){
         const signIn = document.getElementById('signIn');
         signIn.textContent = 'Wait....';
 
-        
-        fetch(apiUrl, options).then(res => {
-            return res.json();
-        }).then(data => {
-            console.log(data);
+        try{
+            fetch(apiUrl, options).then(res => {
+                if(res.status.ok){
+                    return res.json();
+                }
+                else{
+                    console.log('server is not working');
+                    signIn.textContent = 'Sign In';
+                }
+            }).then(data => {
+                console.log(data);
+                signIn.textContent = 'Sign In';
+            }).catch(err => {
+                console.log(err);
+            });
+        }
+        catch(error){
+            console.log('server is not working, please try again');
             signIn.textContent = 'Sign In';
-        }).catch(err => {
-            console.log(err);
-        });
+        }
     }
 }
 
