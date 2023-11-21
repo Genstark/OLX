@@ -69,7 +69,7 @@ async function addDataMongodb(userdata){
 }
 
 
-async function getUserData(){
+async function getUserData(userId){
     const client = new MongoClient(uri);
 
     try{
@@ -78,15 +78,26 @@ async function getUserData(){
         const db = client.db('olx');
         const collection = db.collection('user_data');
 
-        await collection.findOne({id: 'userId'});
+        return await collection.findOne({ _id : userId });
     }
     finally{
         await client.close();
     }
 }
 
-app.get('/userId', (req, res) => {
+app.get('/:userId', (req, res) => {
+    const requestId = req.params.userId;
 
+    getUserData(requestId).then(data => {
+        res.json({
+            statusCode: 200,
+            message: "success",
+            data: data
+        })
+    }).catch(error => {
+        console.log(error);
+    });
+    
 });
 
 
@@ -120,7 +131,7 @@ async function loginDataMongodb(useremail){
         // Make the appropriate changes in your code here
         const db = client.db('olx');
         const collection = db.collection('user_data');
-        return await collection.findOne({UserEmail: useremail});
+        return await collection.findOne({UserEmail: useremail}, { writeConcern: { w: 'majority' } });
     }
     finally{
         // Close connection to the MongoDB cluster
@@ -141,7 +152,8 @@ app.post('/login', (req, res) => {
             if(mongoData['UserEmail'] === postData['email'] && Decrypt(mongoData['Password']) === postData['password']){
                 res.json({
                     message: "email and password is correct",
-                    done: true
+                    done: true,
+                    token: mongoData._id,
                 });
             }
             else{
@@ -164,7 +176,7 @@ app.post('/login', (req, res) => {
 
 
 
-async function userAddSellProduct(){
+async function userAddSellProduct(userdata, fileDocument, userId){
     const client = new MongoClient(uri);
 
     try{
@@ -177,22 +189,22 @@ async function userAddSellProduct(){
         const sellProduct = {
             $set: {
                 product:{
-                    'brandName': 'brandName',
-                    'productType': 'productType',
-                    'Address': 'address',
-                    'phoneNumber': 'phoneNumber',
-                    'state': 'state',
-                    'city': 'city',
-                    'price': 'price',
-                    'image-1': 'image-1',
-                    'image-2': 'image-2',
-                    'image-3': 'image-3',
-                    'overview': 'overview',
-                    'details': 'details'
+                    'brandName': userdata['brandname'],
+                    'productType': userdata['productType'],
+                    'Address': userdata['address'],
+                    'phoneNumber': userdata['phonenumber'],
+                    'state': userdata['state'],
+                    'city': userdata['city'],
+                    'price': userdata['price'],
+                    'overview': userdata['overview'],
+                    'details': userdata['details'],
+                    'image-1': fileDocument[0],
+                    'image-2': fileDocument[1],
+                    'image-3': fileDocument[2],
                 }
             }
         }
-        await collection.findOneAndUpdate({_id: 'userUniqueid'}, sellProduct);
+        await collection.findOneAndUpdate({ _id : userId }, sellProduct, { writeConcern: { w: 'majority' } });
     }
     finally{
         // Close connection to the MongoDB cluster
@@ -205,11 +217,40 @@ const storage = multer.memoryStorage();
 const upload = multer({storage: storage});
 
 
-app.post('/addProduct', upload.array('files', 3),(req, res) => {
-    console.log(req.files[0]);
-    res.json({
-        message: 'success'
-    })
+app.put('/addProduct', upload.array('files', 3),(req, res) => {
+
+    console.log(req.files);
+    const userData = req.body;
+    const userId = req.body.token;
+
+    console.log(userData);
+    let imageCollection = [];
+
+    if(req.files.length > 0){
+        for(let i=0; i < req.files.length; i++){
+            const fileData = req.files[i].buffer;
+            const fileDocument = {
+                filename: req.files[i].originalname,
+                data: fileData
+            }
+
+            imageCollection.push(fileDocument);
+            console.log(imageCollection);
+        }
+    }
+    
+    userAddSellProduct(userData, imageCollection, userId).then(data => {
+        res.json({
+            message: 'success'
+        });
+    }).catch(error => {
+        console.log(error);
+    });
+
+    // res.json({
+    //     message: 'success',
+    //     data: userData
+    // });
 });
 
 
