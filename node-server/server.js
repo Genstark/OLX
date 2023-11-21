@@ -52,23 +52,6 @@ app.get('/', (req, res) => {
 });
 
 
-async function addDataMongodb(userdata){
-    const client = new MongoClient(uri);
-
-    try{
-        await client.connect();
-
-        const db = client.db('olx');
-        const collection = db.collection('user_data');
-
-        await collection.insertOne(userdata, { writeConcern: { w: 'majority' } });
-    }
-    finally{
-        await client.close();
-    }
-}
-
-
 async function getUserData(userId){
     const client = new MongoClient(uri);
 
@@ -100,6 +83,21 @@ app.get('/:userId', (req, res) => {
     
 });
 
+async function addDataMongodb(userdata){
+    const client = new MongoClient(uri);
+
+    try{
+        await client.connect();
+
+        const db = client.db('olx');
+        const collection = db.collection('user_data');
+
+        await collection.insertOne(userdata, { writeConcern: { w: 'majority' } });
+    }
+    finally{
+        await client.close();
+    }
+}
 
 app.post('/signIn', (req, res) => {
     const userData = req.body;
@@ -175,16 +173,34 @@ app.post('/login', (req, res) => {
 });
 
 
+async function singleUserSellProduct(userId){
+    const client = new MongoClient(uri);
+
+    try{
+        await client.connect();
+
+        const db = client.db('olx');
+        const collection = db.collection('user_data');
+
+        return await collection.findOne({ _id : userId });
+    }
+    finally{
+        await client.close();
+    }
+}
 
 async function userAddSellProduct(userdata, fileDocument, userId){
     const client = new MongoClient(uri);
 
     try{
-        // Connect to the MongoDB cluster
+
         await client.connect();
-        // Make the appropriate changes in your code here
+
         const db = client.db('olx');
         const collection = db.collection('user_data');
+
+        const sellingProductData = await collection.findOne({ _id : userId });
+        console.log(sellingProductData.product);
 
         const sellProduct = {
             $set: {
@@ -204,7 +220,9 @@ async function userAddSellProduct(userdata, fileDocument, userId){
                 }
             }
         }
-        await collection.findOneAndUpdate({ _id : userId }, sellProduct, { writeConcern: { w: 'majority' } });
+
+        
+        // await collection.findOneAndUpdate({ _id : userId }, sellProduct, { writeConcern: { w: 'majority' } });
     }
     finally{
         // Close connection to the MongoDB cluster
@@ -219,11 +237,11 @@ const upload = multer({storage: storage});
 
 app.put('/addProduct', upload.array('files', 3),(req, res) => {
 
-    console.log(req.files);
+    // console.log(req.files);
     const userData = req.body;
     const userId = req.body.token;
 
-    console.log(userData);
+    // console.log(userData);
     let imageCollection = [];
 
     if(req.files.length > 0){
@@ -235,7 +253,7 @@ app.put('/addProduct', upload.array('files', 3),(req, res) => {
             }
 
             imageCollection.push(fileDocument);
-            console.log(imageCollection);
+            // console.log(imageCollection);
         }
     }
     

@@ -82,7 +82,7 @@ function checkData(){
 }
 
 
-function addProduct(tokenId){
+function addProduct(){
     const image = document.getElementById('images1');
     const allData = checkData();
 
