@@ -14,60 +14,89 @@
         <div class="bg-secondary">
             <h1 class="text-center pt-2 pb-2" id="heading">OLX</h1>
         </div>
+
+        <div class="container mt-2">
+            <div class="row pt-1 row-distro">
+                <div class="col-md-3">
+                    <select class="form-select border-primary" id="specificSizeSelect">
+                        <option selected value="New Delhi">New Delhi</option>
+                        <option value="Delhi">Delhi</option>
+                        <option value="Mumbai">Mumbai</option>
+                        <option value="Uttar Pradesh">Uttar Pradesh</option>
+                        <option value="Punbjab">Punbjab</option>
+                        <option value="Bhiar">Bhiar</option>
+                        <option value="Hariyana">Hariyana</option>
+                        <option value="Bangolore">Bangolore</option>
+                        <option value="Kerla">Kerla</option>
+                        <option value="Assam">Assam</option>
+                    </select>
+                </div>
+
+                <div class="col-md-5">
+                    <input type="search" placeholder="Search Product..." aria-label="Search" class="form-control border-primary">
+                </div>
+
+                <div class="col-md-2 bg-white text-center">
+                    <a href="/olx-page/login.html" class="text-dark form-control border-primary">Login</a>
+                </div>
+
+                <div class="col-md-2 bg-white text-center">
+                    <a href="/olx-page/signIn.html" class="btn btn-primary text-white form-control border-primary">Add Sell</a>
+                </div>
+            </div>
+        </div>
     </header>
 
     <main>
-        <div class="container-fluid">
-            <div class="border d-flex justify-content-center">
+        <div class="container mt-2 ">
+            <div class="border border-dark d-flex justify-content-center rounded">
                 <div class="d-flex justify-content-center">
-                    <img src="../image.png" alt="" class="image">
+                    <img src="../image.png" alt="product image" class="image" id="mainImage">
                 </div>
             </div>
-            <div class="border mt-1">
-                <div class="d-flex pt-1 pb-1">
-                    <button class="btn btn-primary ms-2">image 1</button>
-                    <button class="btn btn-primary ms-4">image 2</button>
-                    <button class="btn btn-primary ms-4">image 3</button>
-                    <button class="btn btn-primary ms-4">image 4</button>
-                    <button class="btn btn-primary ms-4">image 5</button>
+            <div class="border border-dark mt-1 rounded">
+                <div class="d-flex pt-1 pb-1 ps-2 row">
+                    <img src="../image.png" class="col-xs-1 col-sm-4 col-md-2 col-lg-2 col-xl-2 col-xxl-2 rounded" height="100" width="150" id="image1">
+                    <img src="../image.png" class="col-xs-1 col-sm-4 col-md-2 col-lg-2 col-xl-2 col-xxl-2 rounded" height="100" width="150" id="image2">
+                    <img src="../image.png" class="col-xs-1 col-sm-4 col-md-2 col-lg-2 col-xl-2 col-xxl-2 rounded" height="100" width="150" id="image3">
                 </div>
             </div>
 
-            <div class="d-flex justify-content-center mt-3">
-                <div class="border w-100 d-flex" title="seller contact">
+            <div class="d-flex justify-content-center mt-2">
+                <div class="border border-dark w-100 d-flex rounded" title="seller contact">
                     <img src="../image.png" alt="seller image" class="seller-image">
                     <div class="user-detail">
-                        <p class="pt-2 text-start seller-name fw-bold ms-5 mt-4">Seller Name</p>
-                        <p class="pt-2 text-start fw-bold seller-contact ms-5">Contact Number</p>
-                        <!-- <p class="pt-2 text-dark fw-bold ms-5">Address:</p> -->
+                        <p class="pt-2 text-start seller-name fw-bold ms-5 mt-4" id="userPage">Seller Name: <span id="sellerName"></span></p>
+                        <p class="pt-2 text-start fw-bold seller-contact ms-5">Contact Number: <span id="sellerContact"></span></p>
                     </div>
                 </div>
             </div>
 
-            <div class="d-flex mt-3">
-                <div class="border w-50">
+            <div class="d-flex mt-2">
+                <div class="border border-dark w-50 rounded">
                     <h3 class="mt-2 ms-2 fw-bold">Overview</h3>
-                    <textarea class="mt-1 ms-2 border overview-textarea" placeholder="Overview of your product"></textarea>
+                    <textarea class="mt-1 ms-2 border border-dark overview-textarea rounded" placeholder="Overview of your product" id="smallOverview" readonly></textarea>
                 </div>
                 
-                <div class="border w-50">
-                    <h2 class="fw-bold mt-2 ms-4">Rs: 1,000</h2>
-                    <p class="ms-4 fw-bolder overview-height">IPhone 15, 256GB storage space gray</p>
-                    <p class="ms-4 small-detail fw-bolder">Address</p>
-                    <p class="ms-4 small-detail fw-bolder">State/ City</p>
-                    <p class="ms-4 small-detail fw-bolder">Time</p>
+                <div class="border border-dark w-50 rounded">
+                    <h2 class="fw-bold mt-2 ms-4">Rs: <span id="productPrice">1,000</span></h2>
+                    <p class="ms-4 fw-bolder overview-height" id="smallOverview">IPhone 15, 256GB storage space gray</p>
+                    <p class="ms-4 small-detail fw-bolder" id="userAddress">Address</p>
+                    <p class="ms-4 small-detail fw-bolder" id="userState">State / <span id="city">City</span></p>
+                    <!-- <p class="ms-4 small-detail fw-bolder">Time</p> -->
                 </div>
             </div>
 
-            <div class="border mt-3">
+            <div class="border border-dark mt-2 rounded">
                 <h3 class="mt-2 ms-2 fw-bold">Details</h3>
-                <textarea class="mt-1 ms-2 border detail-textarea" id="autoHeightTextarea" placeholder="Details of your product" oninput="auto_grow(this)"></textarea>
+                <textarea class="mt-1 ms-2 border border-dark detail-textarea rounded" id="autoHeightTextarea" placeholder="Details of your product" oninput="auto_grow(this)" readonly></textarea>
             </div>
         </div>
 
         
     </main>
 
+    <footer></footer>
 
     <script src="./productdetail.js"></script>
 </body>

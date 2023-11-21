@@ -64,6 +64,7 @@ function createAccount(){
 
         const signIn = document.getElementById('signIn');
         signIn.textContent = 'Wait....';
+        signIn.style.cursor = 'wait';
 
         try{
             fetch(apiUrl, options).then(res => {
@@ -71,7 +72,7 @@ function createAccount(){
                     return res.json();
                 }
                 else{
-                    console.log('server is not working');
+                    console.log('Account is created');
                     signIn.textContent = 'Sign In';
                 }
             }).then(data => {
@@ -103,11 +104,11 @@ loginpage.addEventListener('click', () => {
 const checkbox = document.getElementById('checkbox');
 checkbox.addEventListener('change', () => {
     if(checkbox.checked){
-        document.getElementById('password').type = "text"; // if user want see password then password type convert into text
+        document.getElementById('password').type = 'text'; // if user want see password then password type convert into text
         document.getElementById('checkbox').style.backgroundColor = 'red';  //checkbox background color is change into red
     }
     else{
-        document.getElementById('password').type = "password"; // if user don't want see password then type convert into password
+        document.getElementById('password').type = 'password'; // if user don't want see password then type convert into password
         document.getElementById('checkbox').style.backgroundColor = 'white'; //checkbox background color is change into red
     }
 });

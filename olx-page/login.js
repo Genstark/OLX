@@ -82,6 +82,7 @@ function loginAccount(){
         }).then(data => {
             if(data['done'] === true){
                 console.log(data);
+                sessionStorage.setItem('token', data['token']);
                 location.href = '../index.html';
                 email.classList.remove('border-danger');
                 password.classList.remove('border-danger');

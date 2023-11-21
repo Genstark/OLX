@@ -6,7 +6,6 @@ function checkData(){
     const state = document.getElementById('state');
     const city = document.getElementById('city');
     const price = document.getElementById('price');
-    const image1 = document.getElementById('image1');
     const overview = document.getElementById('overview');
     const details = document.getElementById('details');
 
@@ -27,14 +26,14 @@ function checkData(){
         address.focus();
         return false;
     }
-    else if(validPhoneNumber(PhoneNumber) === false){
+    else if(validPhoneNumber(phoneNumber.value) === false){
         address.classList.remove('border-danger');
-        PhoneNumber.classList.add('border-danger');
-        PhoneNumber.focus();
+        phoneNumber.classList.add('border-danger');
+        phoneNumber.focus();
         return false;
     }
     else if(state.value.trim() === ''){
-        PhoneNumber.classList.remove('border-danger');
+        phoneNumber.classList.remove('border-danger');
         state.classList.add('border-danger');
         state.focus();
         return false;
@@ -83,48 +82,31 @@ function checkData(){
 }
 
 
-function addProduct(){
+function addProduct(tokenId){
     const image = document.getElementById('images1');
-    // Create a FormData object and append files
+    const allData = checkData();
+
     let formData = new FormData();
     
-    formData.append('brandname', );
+    formData.append('token', sessionStorage.getItem('token'));
+    formData.append('brandname', allData['brandName']);
+    formData.append('productType', allData['productType']);
+    formData.append('address', allData['address']);
+    formData.append('phonenumber', allData['phoneNumber']);
+    formData.append('state', allData['state']);
+    formData.append('city', allData['city']);
+    formData.append('price', allData['price']);
+    formData.append('overview', allData['overview']);
+    formData.append('details', allData['details']);
     formData.append('files', image.files[0]);
     formData.append('files', image.files[1]);
     formData.append('files', image.files[2]);
 
-    // if(image.files[0].type === 'image/jpeg' || image.files[0].type === 'image/png'){
-    //     formData.append('files', image.files[0]);
-    // }
-    
-    // if(image.files[1].type === 'image/jpeg' || image.files[1].type === 'image/png'){
-    //     formData.append('files', image.files[1]);
-    // }
-
-    // if(image.files[2].type === 'image/jpeg' || image.files[2].type === 'image/png'){
-    //     formData.append('files', image.files[0]);
-    // }
-
-    // for(let i=0; i < image1.files.length; i++){
-    //     if(i === 3){
-    //         break;
-    //     }
-    //     else{
-    //         let fileType = image1.files[i].type;
-    //         if(image1.files[i].type === 'image/png' || image1.files[i].type === 'image/jpeg'){
-    //             console.log(image1.files[i].name);
-    //             formData.append('files', image1.files[i]);
-    //         }
-    //         else{
-    //             console.log('this is not image', i)
-    //         }
-    //     }
-    // }
 
     const apiUrl = 'http://localhost:2000/addProduct';
 
     const options = {
-        method: 'POST',
+        method: 'PUT',
         body: formData,
     };
 
