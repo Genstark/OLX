@@ -19,6 +19,7 @@ const uri = "mongodb+srv://gy523314:%40genwarrior123%40@cluster0.3e0eraj.mongodb
 
 const PORT = 2000;
 
+/*-------------------------------------------------------------------------------------------------------------------------------- */
 
 async function getMongodbData(){
     const client = new MongoClient(uri);
@@ -51,6 +52,7 @@ app.get('/', (req, res) => {
 
 });
 
+/*-------------------------------------------------------------------------------------------------------------------------------- */
 
 async function getUserData(userId){
     const client = new MongoClient(uri);
@@ -83,6 +85,8 @@ app.get('/:userId', (req, res) => {
     
 });
 
+/*-------------------------------------------------------------------------------------------------------------------------------- */
+
 async function addDataMongodb(userdata){
     const client = new MongoClient(uri);
 
@@ -91,8 +95,16 @@ async function addDataMongodb(userdata){
 
         const db = client.db('olx');
         const collection = db.collection('user_data');
-
-        await collection.insertOne(userdata, { writeConcern: { w: 'majority' } });
+        
+        const emailfind = await collection.findOne({UserEmail: userdata['UserEmail']})
+        
+        if(emailfind === null){
+            await collection.insertOne(userdata, { writeConcern: { w: 'majority' } });
+            return 'Account is create';
+        }
+        else{
+            return 'email is already exist please use another email';
+        }
     }
     finally{
         await client.close();
@@ -106,12 +118,14 @@ app.post('/signIn', (req, res) => {
 
     userData['_id'] = generateId();
     userData['Password'] = passwordEncrypted;
+    userData['product'] = [];
 
-    console.log(userData);
+    // console.log(userData);
 
     addDataMongodb(userData).then(data => {
         res.json({
-            message: "ok"
+            status: "ok",
+            data: data
         });
     }).catch(error => {
         console.log(error);
@@ -119,20 +133,18 @@ app.post('/signIn', (req, res) => {
 
 });
 
-
+/*-------------------------------------------------------------------------------------------------------------------------------- */
 async function loginDataMongodb(useremail){
     const client = new MongoClient(uri);
 
     try{
-        // Connect to the MongoDB cluster
         await client.connect();
-        // Make the appropriate changes in your code here
+
         const db = client.db('olx');
         const collection = db.collection('user_data');
         return await collection.findOne({UserEmail: useremail}, { writeConcern: { w: 'majority' } });
     }
     finally{
-        // Close connection to the MongoDB cluster
         await client.close();
     }
 }
@@ -172,22 +184,7 @@ app.post('/login', (req, res) => {
     });
 });
 
-
-async function singleUserSellProduct(userId){
-    const client = new MongoClient(uri);
-
-    try{
-        await client.connect();
-
-        const db = client.db('olx');
-        const collection = db.collection('user_data');
-
-        return await collection.findOne({ _id : userId });
-    }
-    finally{
-        await client.close();
-    }
-}
+/*-------------------------------------------------------------------------------------------------------------------------------- */
 
 async function userAddSellProduct(userdata, fileDocument, userId){
     const client = new MongoClient(uri);
@@ -200,29 +197,33 @@ async function userAddSellProduct(userdata, fileDocument, userId){
         const collection = db.collection('user_data');
 
         const sellingProductData = await collection.findOne({ _id : userId });
-        console.log(sellingProductData.product);
+        console.log(sellingProductData);
+
+        const data = {
+            'brandName': userdata['brandname'],
+            'productType': userdata['productType'],
+            'Address': userdata['address'],
+            'phoneNumber': userdata['phonenumber'],
+            'state': userdata['state'],
+            'city': userdata['city'],
+            'price': userdata['price'],
+            'overview': userdata['overview'],
+            'details': userdata['details'],
+            'image-1': fileDocument[0],
+            'image-2': fileDocument[1],
+            'image-3': fileDocument[2],
+        }
 
         const sellProduct = {
             $set: {
-                product:{
-                    'brandName': userdata['brandname'],
-                    'productType': userdata['productType'],
-                    'Address': userdata['address'],
-                    'phoneNumber': userdata['phonenumber'],
-                    'state': userdata['state'],
-                    'city': userdata['city'],
-                    'price': userdata['price'],
-                    'overview': userdata['overview'],
-                    'details': userdata['details'],
-                    'image-1': fileDocument[0],
-                    'image-2': fileDocument[1],
-                    'image-3': fileDocument[2],
-                }
+                product: sellingProductData['product']
             }
         }
 
+        sellProduct.$set.product.push(data);
+        console.log(sellProduct);
         
-        // await collection.findOneAndUpdate({ _id : userId }, sellProduct, { writeConcern: { w: 'majority' } });
+        await collection.findOneAndUpdate({ _id : userId }, sellProduct, { writeConcern: { w: 'majority' } });
     }
     finally{
         // Close connection to the MongoDB cluster
@@ -259,7 +260,8 @@ app.put('/addProduct', upload.array('files', 3),(req, res) => {
     
     userAddSellProduct(userData, imageCollection, userId).then(data => {
         res.json({
-            message: 'success'
+            message: 'success',
+            data: 'product is ready to sell'
         });
     }).catch(error => {
         console.log(error);
@@ -271,6 +273,7 @@ app.put('/addProduct', upload.array('files', 3),(req, res) => {
     // });
 });
 
+/*-------------------------------------------------------------------------------------------------------------------------------- */
 
 app.put('/', (req, res) => {
     console.log('req for changes in current data');
