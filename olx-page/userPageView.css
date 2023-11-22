@@ -1,3 +1,23 @@
 .homepage:hover{
     cursor: pointer;
 }
+
+.userColumn{
+    width: 35%;
+}
+
+.productColumn{
+    width: 65%;
+}
+
+@media (min-width: 320px) and (max-width: 576px){
+    .userColumn{
+        width: 100%;
+        display: inline-block;
+    }
+    
+    .productColumn{
+        width: 100%;
+        display: inline-block;
+    }
+}

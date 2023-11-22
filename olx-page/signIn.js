@@ -68,16 +68,16 @@ function createAccount(){
 
         try{
             fetch(apiUrl, options).then(res => {
-                if(res.status.ok){
-                    return res.json();
-                }
-                else{
-                    console.log('Account is created');
+                if(!res.ok){
                     signIn.textContent = 'Sign In';
+                    signIn.style.cursor = 'pointer';
+                    throw new Error('Network response was not ok');
                 }
+                return res.json();
             }).then(data => {
                 console.log(data);
                 signIn.textContent = 'Sign In';
+                signIn.style.cursor = 'pointer';
             }).catch(err => {
                 console.log(err);
             });

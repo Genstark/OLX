@@ -36,12 +36,22 @@
                     <input type="search" placeholder="Search Product..." aria-label="Search" class="form-control border-primary">
                 </div>
 
-                <div class="col-md-2 bg-white text-center">
-                    <a href="/olx-page/login.html" class="text-dark form-control border-primary">Login</a>
+                <div class="col-md-2 text-center">
+                    <p class="text-dark form-control border-primary" id="loginOrNot">Login</p>
+                    
+                    <div class="dropdown d-none" id="dropdown">
+                        <p class="btn btn-white border-primary dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="name">user name</p>
+                    
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Account Setting</a></li>
+                            <li><a class="dropdown-item" href="#">Log Out</a></li>
+                        </ul>
+                    </div>
+
                 </div>
 
                 <div class="col-md-2 bg-white text-center">
-                    <a href="/olx-page/signIn.html" class="btn btn-primary text-white form-control border-primary">Add Sell</a>
+                    <a href="/olx-page/productEntry.html" class="btn btn-primary text-white form-control border-primary">Add Sell</a>
                 </div>
             </div>
         </div>
@@ -49,7 +59,39 @@
 
     <main>
 
-        
+        <div class="container mt-2">
+            <div class="row mx-auto">
+                <div class="border col-md-4 col-sm-12 col-lg-4">
+                    <div class="w-75 m-auto mt-2 text-center">
+                        <img src="../image.png" alt="" width="200px" height="150px" class="rounded-circle">
+                    </div>
+
+                    <div class="w-100 mt-4">
+                        <h4 id="userName" class="ps-3">user name</h4>
+                    </div>
+
+                </div>
+
+                <div class="border col-md-8 col-sm-12 col-lg-8" id="allProduct">
+
+                    <!-- <div class="card mb-3 w-100 mt-2" id="nextPage">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="../image.png" class="img-fluid rounded-start" alt="produt image">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Product name</h5>
+                                    <p class="card-text mt-3"> Overview of this is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                    <p class="card-text bottom-text"><small class="text-muted">State and city name</small></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+
+                </div>
+            </div>
+        </div>
 
     </main>
 
