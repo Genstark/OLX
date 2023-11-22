@@ -209,6 +209,7 @@ async function userAddSellProduct(userdata, fileDocument, userId){
             'price': userdata['price'],
             'overview': userdata['overview'],
             'details': userdata['details'],
+            'productKey': genrateProductKey(),
             'image-1': fileDocument[0],
             'image-2': fileDocument[1],
             'image-3': fileDocument[2],
@@ -307,9 +308,19 @@ function Decrypt(passowrd){
 /*---------------------------------------------------------------------------------------------*/
 function generateId(){
     const character = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    let result = "";
+    let result = '';
     for(let i=0; i < 15; i++){
         result += character[Math.floor(Math.random()*character.length)];
+    }
+    return result;
+}
+
+function genrateProductKey(){
+    const character = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+    let result = '';
+    for(let i=0; i < 20; i++){
+        result += character[Math.floor(Math.random() * character.length)];
     }
     return result;
 }
