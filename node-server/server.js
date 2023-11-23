@@ -38,10 +38,31 @@ async function getMongodbData(){
     }
 }
 
-app.get('/', (req, res) => {
+app.get('/user', (req, res) => {
+
+    let productCollection = [];
+
+
     getMongodbData().then(data => {
+        console.log(data[0]['product'][0]);
+
+        for(let i=0; i < data.length; i++){
+
+            let singleData = {
+                'productName': data[i]['product'][i]['productType'],
+                'overview': data[i]['product'][i]['overview'],
+                'image-1': data[i]['product'][i]['image-1'],
+                'productKey': data[i]['product'][i]['productKey'],
+                'state': data[i]['product'][i]['state'],
+                'city': data[i]['product'][i]['city']
+            };
+
+            productCollection.push(singleData);
+        }
+
         res.json({
-            data: data,
+            statusCode: 200,
+            data: productCollection,
             message: "success"
         });
     }).catch(error => {
@@ -87,6 +108,46 @@ app.get('/:userId', (req, res) => {
 
 /*-------------------------------------------------------------------------------------------------------------------------------- */
 
+async function getIndividualProductData(productkey){
+    const client = new MongoClient(uri);
+
+    try{
+        await client.connect();
+
+        const db = client.db('olx');
+        const collection = db.collection('user_data');
+        const data = await collection.find({}).toArray();
+
+        for(let i=0; i < data.length; i++){
+            if(data[i]['product'][i]['productKey'] === productkey){
+                return data[i]['product'][i];
+            }
+            else{
+                console.log('not found');
+            }
+        }
+        // return await collection.findOne({ productKey : productkey });
+    }
+    finally{
+        await client.close();
+    }
+}
+
+app.get('/product/:id', (req, res) => {
+    const requestId = req.params.id;
+
+    getIndividualProductData(requestId).then(data => {
+        res.json({
+            message: 'success',
+            data: data
+        });
+    }).catch(error => {
+        console.log(error);
+    });
+});
+
+/*-------------------------------------------------------------------------------------------------------------------------------- */
+
 async function addDataMongodb(userdata){
     const client = new MongoClient(uri);
 
@@ -96,7 +157,7 @@ async function addDataMongodb(userdata){
         const db = client.db('olx');
         const collection = db.collection('user_data');
         
-        const emailfind = await collection.findOne({UserEmail: userdata['UserEmail']})
+        const emailfind = await collection.findOne({UserEmail: userdata['UserEmail']});
         
         if(emailfind === null){
             await collection.insertOne(userdata, { writeConcern: { w: 'majority' } });
@@ -329,8 +390,15 @@ function genrateProductKey(){
 
 
 /*
-/user           (get all data for landing or homepage)
-/user/id        (get data of dingle product and single user)
-/user/login     (when user login)
-/user/signIn    (when user create new account)
+/user               (get all data for landing or homepage)
+/user/id            (get data of single product and single user)
+/user/login         (when user login)
+/user/signIn        (when user create new account)
+/user/add           (when user logout)
+/user/logout        (when user logout)
+/user/update        (when user update data)
+/user/delete        (when user delete data)
+
+/products            (list of all product without login)
+/products/id         (individual product page)
 */
