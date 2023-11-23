@@ -16,3 +16,22 @@
     text-align: end;
     font-weight: bold;
 }
+
+.image-height{
+    height: 100%;
+}
+
+.mouseHover:hover{
+    cursor: pointer;
+}
+
+.card {
+    position: relative;
+    overflow: hidden;
+}
+
+.card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}

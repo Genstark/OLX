@@ -18,26 +18,31 @@ function loginFunction(){
         method: 'GET',
     }
 
-    fetch(apiUrl, options).then(res => {
-        return res.json();
-    }).then(data => {
-        
-        console.log(data);
-        console.log(data['data']['UserName']);
-        loginOrNot.style.display = 'none';
-        dropDown.classList.remove('d-none');
-        name.innerHTML = data['data']['UserName'];
-        userName.innerHTML = data['data']['UserName'];
+    if(sessionData){
+        fetch(apiUrl, options).then(res => {
+            return res.json();
+        }).then(data => {
+            
+            console.log(data);
+            console.log(data['data']['UserName']);
+            loginOrNot.style.display = 'none';
+            dropDown.classList.remove('d-none');
+            name.innerHTML = data['data']['UserName'];
+            userName.innerHTML = data['data']['UserName'];
 
-        let arrayLength = data['data']['product'].length; 
+            let arrayLength = data['data']['product'].length; 
 
-        for(let i=0; i < arrayLength; i++){
-            createElement(data['data']['product'][i]['image-1']['data'], data['data']['product'][i]['productType'], data['data']['product'][i]['overview']);
-        }
+            for(let i=0; i < arrayLength; i++){
+                createElement(data['data']['product'][i]['image-1']['data'], data['data']['product'][i]['productType'], data['data']['product'][i]['overview']);
+            }
 
-    }).catch(error => {
-        console.log(error);
-    });
+        }).catch(error => {
+            console.log(error);
+        });
+    }
+    else{
+        console.log('currently is user is logout');
+    }
 }
 
 
@@ -60,3 +65,17 @@ function createElement(image, productName, overview){
         </div>
     `;
 }
+
+
+const logout = document.getElementById('logout');
+logout.addEventListener('click', () => {
+
+    const loginOrNot = document.getElementById('loginOrNot');
+    const dropDown = document.getElementById('dropdown');
+
+    dropDown.style.display = 'block';
+    loginOrNot.classList.remove('d-none');
+    sessionStorage.removeItem('token');
+    location.reload();
+});
+

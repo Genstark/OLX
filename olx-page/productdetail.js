@@ -54,7 +54,7 @@ function auto_grow(element) {
 
 const userPage= document.getElementById('userPage');
 userPage.addEventListener('click', () => {
-    window.location.href = './userPageView.html';
+    window.location.href = './profile.html';
 });
 
 
