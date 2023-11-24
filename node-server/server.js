@@ -19,6 +19,8 @@ const uri = "mongodb+srv://gy523314:%40genwarrior123%40@cluster0.3e0eraj.mongodb
 
 const PORT = 2000;
 
+
+//when user login and user land on home page
 /*-------------------------------------------------------------------------------------------------------------------------------- */
 
 async function getMongodbData(){
@@ -44,20 +46,22 @@ app.get('/user', (req, res) => {
 
 
     getMongodbData().then(data => {
-        console.log(data[0]['product'][0]);
+        // console.log(data[0]['product'][0]);
 
         for(let i=0; i < data.length; i++){
 
-            let singleData = {
-                'productName': data[i]['product'][i]['productType'],
-                'overview': data[i]['product'][i]['overview'],
-                'image-1': data[i]['product'][i]['image-1'],
-                'productKey': data[i]['product'][i]['productKey'],
-                'state': data[i]['product'][i]['state'],
-                'city': data[i]['product'][i]['city']
-            };
+            if(data[i]['product'].length !== 0){
+                let singleData = {
+                    'productName': data[i]['product'][i]['productType'],
+                    'overview': data[i]['product'][i]['overview'],
+                    'image-1': data[i]['product'][i]['image-1'],
+                    'productKey': data[i]['product'][i]['productKey'],
+                    'state': data[i]['product'][i]['state'],
+                    'city': data[i]['product'][i]['city']
+                };
 
-            productCollection.push(singleData);
+                productCollection.push(singleData);
+            }
         }
 
         res.json({
@@ -69,10 +73,10 @@ app.get('/user', (req, res) => {
         console.log(error);
     });
 
-    console.log('send all data in get request');
-
 });
 
+
+//when user reques for the individual product page or profile page
 /*-------------------------------------------------------------------------------------------------------------------------------- */
 
 async function getUserData(userId){
@@ -108,6 +112,28 @@ app.get('/:userId', (req, res) => {
 
 /*-------------------------------------------------------------------------------------------------------------------------------- */
 
+async function getItemMongodbData(){
+    const client = new MongoClient(uri);
+
+    try{
+        // Connect to the MongoDB cluster
+        await client.connect();
+        // Make the appropriate changes in your code here
+        const db = client.db('olx');
+        const collection = db.collection('user_data');
+        return await collection.find({}, { writeConcern: { w: 'majority' } }).toArray();
+    }
+    finally{
+        // Close connection to the MongoDB cluster
+        await client.close();
+    }
+}
+
+app.get('/item', (req, res) => {
+});
+
+/*-------------------------------------------------------------------------------------------------------------------------------- */
+//when user request for the product page
 async function getIndividualProductData(productkey){
     const client = new MongoClient(uri);
 
@@ -133,7 +159,7 @@ async function getIndividualProductData(productkey){
     }
 }
 
-app.get('/product/:id', (req, res) => {
+app.get('/item/:id', (req, res) => {
     const requestId = req.params.id;
 
     getIndividualProductData(requestId).then(data => {
@@ -371,7 +397,7 @@ function generateId(){
     const character = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     let result = '';
     for(let i=0; i < 15; i++){
-        result += character[Math.floor(Math.random()*character.length)];
+        result += character[Math.floor(Math.random() * character.length)];
     }
     return result;
 }
@@ -394,11 +420,13 @@ function genrateProductKey(){
 /user/id            (get data of single product and single user)
 /user/login         (when user login)
 /user/signIn        (when user create new account)
-/user/add           (when user logout)
-/user/logout        (when user logout)
-/user/update        (when user update data)
-/user/delete        (when user delete data)
+/user/addItem       (when user logout)
+/user/deleteItem    (when user delete item)
+/user/deleteAccount (when user delete account)
 
-/products            (list of all product without login)
-/products/id         (individual product page)
+--------------------------------------------------------------
+When the user is a viewer
+--------------------------------------------------------------
+/item               (list of all product without login)
+/item/id            (individual product page)
 */
