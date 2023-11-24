@@ -34,9 +34,9 @@ function checkingData(){
 
         const userData = {
             'UserName': name.value,
-            'UserEmail' : email.value,
-            'PhoneNumber' : number.value,
-            'Password' : password.value,
+            'UserEmail': email.value,
+            'PhoneNumber': number.value,
+            'Password': password.value,
         }
 
         return userData;

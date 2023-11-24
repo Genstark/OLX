@@ -1,7 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    const sessionData = sessionStorage.getItem('token');
-
+    const token = sessionStorage.getItem('token');
+    console.log(token);
+    
     const apiUrl = 'http://localhost:2000/user';
     const options ={
         method : "GET" ,
@@ -10,11 +11,17 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    if(sessionData !== null){
+    if(token !== null){
         fetch(apiUrl, options).then(res => {
             return res.json();
         }).then(data => {
-            console.log(data);    
+            console.log(data);
+            const dataLength = data['data'].length;
+
+            for(let i=0; i < dataLength; i++){
+                createElement(data['data'][i]['productKey'], data['data'][i]['image-1']['data'], data['data'][i]['productName'], data['data'][i]['overview'], data['data'][i]['state'], data['data'][i]['city']);
+            }
+
         }).catch(error => {
             console.log(error);
         });
@@ -24,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log(data);
 
             const dataLength = data['data'].length;
-            console.log(dataLength)
+
             for(let i=0; i < dataLength; i++){
                 createElement(data['data'][i]['productKey'], data['data'][i]['image-1']['data'], data['data'][i]['productName'], data['data'][i]['overview'], data['data'][i]['state'], data['data'][i]['city']);
             }
@@ -70,20 +77,20 @@ function pageChange(key, event){
     console.log(key);
     console.log(event);
     sessionStorage.setItem('item', key);
-    // location.href = './productdetail.html';
+    location.href = '/olx-page/productdetail.html';
 
-    const apiUrl = `http://localhost:2000/product/${key}`;
-    const options = {
-        method: 'GET',
-    }
+    // const apiUrl = `http://localhost:2000/product/${key}`;
+    // const options = {
+    //     method: 'GET',
+    // }
 
-    fetch(apiUrl, options).then(res => {
-        return res.json();
-    }).then(data => {
-        console.log(data);
-    }).catch(error => {
-        console.log(error);
-    });
+    // fetch(apiUrl, options).then(res => {
+    //     return res.json();
+    // }).then(data => {
+    //     console.log(data);
+    // }).catch(error => {
+    //     console.log(error);
+    // });
 }
 
 // Two types of users
