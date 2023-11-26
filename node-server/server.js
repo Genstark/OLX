@@ -120,7 +120,7 @@ async function getItemMongodbData(){
         await client.connect();
         // Make the appropriate changes in your code here
         const db = client.db('olx');
-        const collection = db.collection('user_data');
+        const collection = db.collection('Items');
         return await collection.find({}, { writeConcern: { w: 'majority' } }).toArray();
     }
     finally{
@@ -130,6 +130,25 @@ async function getItemMongodbData(){
 }
 
 app.get('/item', (req, res) => {
+    console.log('this routing call all item from data base');
+
+    getItemMongodbData().then(data => {
+
+        if(data.length !== 0){
+            res.json({
+                status: 200,
+                message: 'Success',
+                data: data
+            });
+        }
+        else{
+            res.json({
+                status: 200,
+                message: 'success',
+                data: 'your item data is empty'
+            });
+        }
+    });
 });
 
 /*-------------------------------------------------------------------------------------------------------------------------------- */
@@ -203,9 +222,9 @@ app.post('/signIn', (req, res) => {
 
     const passwordEncrypted = Encryption(userData['Password']);
 
-    userData['_id'] = generateId();
+    // userData['_id'] = generateId();
     userData['Password'] = passwordEncrypted;
-    userData['product'] = [];
+    userData['product_Id'] = [];
 
     // console.log(userData);
 
@@ -281,10 +300,10 @@ async function userAddSellProduct(userdata, fileDocument, userId){
         await client.connect();
 
         const db = client.db('olx');
-        const collection = db.collection('user_data');
+        const collection = db.collection('Items');
 
-        const sellingProductData = await collection.findOne({ _id : userId });
-        console.log(sellingProductData);
+        // const sellingProductData = await collection.findOne({ _id : userId });
+        // console.log(sellingProductData);
 
         const data = {
             'brandName': userdata['brandname'],
@@ -296,22 +315,25 @@ async function userAddSellProduct(userdata, fileDocument, userId){
             'price': userdata['price'],
             'overview': userdata['overview'],
             'details': userdata['details'],
-            'productKey': genrateProductKey(),
+            // 'productKey': genrateProductKey(),
             'image-1': fileDocument[0],
             'image-2': fileDocument[1],
             'image-3': fileDocument[2],
+            'user_id': userId
         }
 
-        const sellProduct = {
-            $set: {
-                product: sellingProductData['product']
-            }
-        }
+        // const sellProduct = {
+        //     $set: {
+        //         product: sellingProductData['product']
+        //     }
+        // }
 
-        sellProduct.$set.product.push(data);
-        console.log(sellProduct);
+        // sellProduct.$set.product.push(data);
+        // console.log(sellProduct);
         
-        await collection.findOneAndUpdate({ _id : userId }, sellProduct, { writeConcern: { w: 'majority' } });
+        // await collection.findOneAndUpdate({ _id : userId }, sellProduct, { writeConcern: { w: 'majority' } });
+
+        await collection.insertOne(data, {writeConcern: {w: 'majority'}});
     }
     finally{
         // Close connection to the MongoDB cluster

@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const token = sessionStorage.getItem('token');
     console.log(token);
     
-    const apiUrl = 'http://localhost:2000/user';
+    const apiUrl = 'http://localhost:2000/item';
     const options ={
         method : "GET" ,
         headers:{
