@@ -23,96 +23,96 @@ const PORT = 2000;
 //when user login and user land on home page
 /*-------------------------------------------------------------------------------------------------------------------------------- */
 
-async function getMongodbData(){
-    const client = new MongoClient(uri);
+// async function getMongodbData(){
+//     const client = new MongoClient(uri);
 
-    try{
-        // Connect to the MongoDB cluster
-        await client.connect();
-        // Make the appropriate changes in your code here
-        const db = client.db('olx');
-        const collection = db.collection('user_data');
-        return await collection.find({}, { writeConcern: { w: 'majority' } }).toArray();
-    }
-    finally{
-        // Close connection to the MongoDB cluster
-        await client.close();
-    }
-}
+//     try{
+//         // Connect to the MongoDB cluster
+//         await client.connect();
+//         // Make the appropriate changes in your code here
+//         const db = client.db('olx');
+//         const collection = db.collection('user_data');
+//         return await collection.find({}, { writeConcern: { w: 'majority' } }).toArray();
+//     }
+//     finally{
+//         // Close connection to the MongoDB cluster
+//         await client.close();
+//     }
+// }
 
-app.get('/user', (req, res) => {
+// app.get('/user', (req, res) => {
 
-    let productCollection = [];
+//     let productCollection = [];
 
 
-    getMongodbData().then(data => {
-        // console.log(data[0]['product'][0]);
+//     getMongodbData().then(data => {
+//         // console.log(data[0]['product'][0]);
 
-        for(let i=0; i < data.length; i++){
+//         for(let i=0; i < data.length; i++){
 
-            if(data[i]['product'].length !== 0){
-                let singleData = {
-                    'productName': data[i]['product'][i]['productType'],
-                    'overview': data[i]['product'][i]['overview'],
-                    'image-1': data[i]['product'][i]['image-1'],
-                    'productKey': data[i]['product'][i]['productKey'],
-                    'state': data[i]['product'][i]['state'],
-                    'city': data[i]['product'][i]['city']
-                };
+//             if(data[i]['product'].length !== 0){
+//                 let singleData = {
+//                     'productName': data[i]['product'][i]['productType'],
+//                     'overview': data[i]['product'][i]['overview'],
+//                     'image-1': data[i]['product'][i]['image-1'],
+//                     'productKey': data[i]['product'][i]['productKey'],
+//                     'state': data[i]['product'][i]['state'],
+//                     'city': data[i]['product'][i]['city']
+//                 };
 
-                productCollection.push(singleData);
-            }
-        }
+//                 productCollection.push(singleData);
+//             }
+//         }
 
-        res.json({
-            statusCode: 200,
-            data: productCollection,
-            message: "success"
-        });
-    }).catch(error => {
-        console.log(error);
-    });
+//         res.json({
+//             statusCode: 200,
+//             data: productCollection,
+//             message: "success"
+//         });
+//     }).catch(error => {
+//         console.log(error);
+//     });
 
-});
+// });
 
 
 //when user reques for the individual product page or profile page
 /*-------------------------------------------------------------------------------------------------------------------------------- */
 
-async function getUserData(userId){
-    const client = new MongoClient(uri);
+// async function getUserData(userId){
+//     const client = new MongoClient(uri);
 
-    try{
-        await client.connect();
+//     try{
+//         await client.connect();
 
-        const db = client.db('olx');
-        const collection = db.collection('user_data');
+//         const db = client.db('olx');
+//         const collection = db.collection('user_data');
 
-        return await collection.findOne({ _id : userId });
-    }
-    finally{
-        await client.close();
-    }
-}
+//         return await collection.findOne({ _id : userId });
+//     }
+//     finally{
+//         await client.close();
+//     }
+// }
 
-app.get('/:userId', (req, res) => {
-    const requestId = req.params.userId;
+// app.get('/:userId', (req, res) => {
+//     const requestId = req.params.userId;
 
-    getUserData(requestId).then(data => {
-        res.json({
-            statusCode: 200,
-            message: "success",
-            data: data
-        })
-    }).catch(error => {
-        console.log(error);
-    });
+//     getUserData(requestId).then(data => {
+//         res.json({
+//             statusCode: 200,
+//             message: "success",
+//             data: data
+//         })
+//     }).catch(error => {
+//         console.log(error);
+//     });
     
-});
+// });
 
 /*-------------------------------------------------------------------------------------------------------------------------------- */
 
-async function getItemMongodbData(){
+async function getAllItemsMongoDB(){
     const client = new MongoClient(uri);
 
     try{
@@ -129,25 +129,17 @@ async function getItemMongodbData(){
     }
 }
 
-app.get('/item', (req, res) => {
-    console.log('this routing call all item from data base');
+app.get('/items', (req, res) => {
+    
+    getAllItemsMongoDB().then(data => {
+        console.log(data);
 
-    getItemMongodbData().then(data => {
-
-        if(data.length !== 0){
-            res.json({
-                status: 200,
-                message: 'Success',
-                data: data
-            });
-        }
-        else{
-            res.json({
-                status: 200,
-                message: 'success',
-                data: 'your item data is empty'
-            });
-        }
+        res.json({
+            message: 'Success',
+            data: data
+        });
+    }).catch(error => {
+        console.log(error);
     });
 });
 
@@ -160,7 +152,7 @@ async function getIndividualProductData(productkey){
         await client.connect();
 
         const db = client.db('olx');
-        const collection = db.collection('user_data');
+        const collection = db.collection('Items');
         const data = await collection.find({}).toArray();
 
         for(let i=0; i < data.length; i++){

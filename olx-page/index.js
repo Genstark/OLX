@@ -3,50 +3,51 @@ document.addEventListener("DOMContentLoaded", () => {
     const token = sessionStorage.getItem('token');
     console.log(token);
     
-    const apiUrl = 'http://localhost:2000/item';
-    const options ={
-        method : "GET" ,
-        headers:{
-            "content-type":"application/json",
-        }
-    }
+    const apiUrl = 'http://localhost:2000/items';
+    const options = {
+        method : "GET",
+    };
 
-    if(token !== null){
-        fetch(apiUrl, options).then(res => {
-            return res.json();
-        }).then(data => {
-            console.log(data);
-            const dataLength = data['data'].length;
 
-            for(let i=0; i < dataLength; i++){
-                createElement(data['data'][i]['productKey'], data['data'][i]['image-1']['data'], data['data'][i]['productName'], data['data'][i]['overview'], data['data'][i]['state'], data['data'][i]['city']);
-            }
-
-        }).catch(error => {
-            console.log(error);
-        });
-    }
-    else{
-        apiCall(apiUrl, options).then(data => {
-            console.log(data);
-
-            const dataLength = data['data'].length;
-
-            for(let i=0; i < dataLength; i++){
-                createElement(data['data'][i]['productKey'], data['data'][i]['image-1']['data'], data['data'][i]['productName'], data['data'][i]['overview'], data['data'][i]['state'], data['data'][i]['city']);
-            }
-
-        }).catch(error => {
-            console.log(error);
-        });
-    }
-});
-
-function apiCall(apiUrl, options){
-    return fetch(apiUrl, options).then(res => {
+    fetch(apiUrl, options).then(res => {
         return res.json();
+    }).then(data => {
+        console.log(data);
     });
-}
+
+    // if(token !== null){
+    //     fetch(apiUrl, options).then(res => {
+    //         return res.json();
+    //     }).then(data => {
+    //         console.log(data);
+    //         const dataLength = data['data'].length;
+
+    //         for(let i=0; i < dataLength; i++){
+    //             createElement(data['data'][i]['productKey'], data['data'][i]['image-1']['data'], data['data'][i]['productName'], data['data'][i]['overview'], data['data'][i]['state'], data['data'][i]['city']);
+    //         }
+
+    //     }).catch(error => {
+    //         console.log(error);
+    //     });
+    // }
+    // else{
+        
+    //     fetch(apiUrl, options).then(res => {
+    //         return res.json();
+    //     }).then(data => {
+
+    //         console.log(data);
+    //         // const dataLength = data['data'].length;
+
+    //         // for(let i=0; i < dataLength; i++){
+    //         //     createElement(data['data'][i]['productKey'], data['data'][i]['image-1']['data'], data['data'][i]['productName'], data['data'][i]['overview'], data['data'][i]['state'], data['data'][i]['city']);
+    //         // }
+
+    //     }).catch(error => {
+    //         console.log(error);
+    //     });
+    // }
+});
 
 function createElement(productKey, image, productname, overview, state, city){
     const mainContainer = document.getElementById('mainContainer');
