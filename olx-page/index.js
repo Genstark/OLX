@@ -13,6 +13,15 @@ document.addEventListener("DOMContentLoaded", () => {
         return res.json();
     }).then(data => {
         console.log(data);
+
+        const dataLength = data['data'].length;
+
+        for(let i=0; i < dataLength; i++){
+            createElement(data['data'][i]['_id'], data['data'][i]['image-1']['data'], data['data'][i]['productType'], data['data'][i]['overview'], data['data'][i]['state'], data['data'][i]['city']);
+        }
+
+    }).catch(error => {
+        console.log(error);
     });
 
     // if(token !== null){

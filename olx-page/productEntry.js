@@ -106,7 +106,7 @@ function addProduct(){
     const apiUrl = 'http://localhost:2000/addProduct';
 
     const options = {
-        method: 'PUT',
+        method: 'POST',
         body: formData,
     };
 
@@ -138,7 +138,7 @@ function addProduct(){
 }
 
 function validPhoneNumber(number){
-    let numberChecking = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
+    const numberChecking = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
     return numberChecking.test(number);
 }
 

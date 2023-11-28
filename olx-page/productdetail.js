@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', gettingData());
 
 
-function changeElementContentItem(data){
+async function changeElementContentItem(data){
     const sellerName = document.getElementById('sellerName');
     const sellerContact = document.getElementById('sellerContact');
     const priceProduct = document.getElementById('productPrice');
@@ -14,7 +14,7 @@ function changeElementContentItem(data){
     const mainImage = document.getElementById('mainImage');
 
     try{
-        sellerName.innerHTML = data['data']['UserName'];
+        sellerName.innerHTML = data['profile']['UserName'];
         sellerContact.innerHTML = '**********';
         priceProduct.innerHTML = data['data']['price'];
         userAddress.innerHTML = data['data']['Address'];
@@ -23,7 +23,7 @@ function changeElementContentItem(data){
         details.value = data['data']['details'];
         mainImage.src = `data:image/png image/jpeg;base64,${data['data']['image-1']['data']}`;
         image1.src = `data:image/png image/jpeg;base64,${data['data']['image-2']['data']}`;
-        image2.src = `data:image/png image/jpeg;base64,${data['data']['image-3']['data']}`;
+        // image2.src = `data:image/png image/jpeg;base64,${data['data']['image-3']['data']}`;
     }
     catch(error){
         console.error(error);
@@ -43,8 +43,8 @@ function changeElementContentUser(data){
     const mainImage = document.getElementById('mainImage');
 
     try{
-        sellerName.innerHTML = data['data']['UserName'];
-        sellerContact.innerHTML = data['data']['PhoneNumber'];
+        sellerName.innerHTML = data['profile']['UserName'];
+        sellerContact.innerHTML = data['data']['phoneNumber'];
         priceProduct.innerHTML = data['data']['price'];
         userAddress.innerHTML = data['data']['Address'];
         smallOverview.value = data['data']['overview'];
@@ -52,7 +52,7 @@ function changeElementContentUser(data){
         details.value = data['data']['details'];
         mainImage.src = `data:image/png image/jpeg;base64,${data['data']['image-1']['data']}`;
         image1.src = `data:image/png image/jpeg;base64,${data['data']['image-2']['data']}`;
-        image2.src = `data:image/png image/jpeg;base64,${data['data']['image-3']['data']}`;
+        // image2.src = `data:image/png image/jpeg;base64,${data['data']['image-3']['data']}`;
     }
     catch(error){
         console.error(error);
@@ -63,71 +63,41 @@ function changeElementContentUser(data){
 function gettingData(){
     const token = sessionStorage.getItem('token');
     const item = sessionStorage.getItem('item');
-
+    const mainBody = document.getElementById('main');
+    
     console.log(token);
 
-    if(token !== null){
-        const apiUrl = `http://localhost:2000/${token}`;
-        const options = {
-            method : 'GET',
-        }
+    mainBody.style.display = 'none';
 
-        try{
-            fetch(apiUrl, options).then(res => {
-                return res.json();
-            }).then(data => {
-                console.log(data);
-                
-                let textarea = document.getElementById('autoHeightTextarea');
-                
-                changeElementContentUser(data);
-                auto_grow(textarea);
 
-            }).catch(error => {
-                console.error(error);
-                console.log('token is not valid');
-            });
-        }
-        catch(error){
-            console.log('server is not working');
-        }
+    const apiUrl = `http://localhost:2000/items/${item}`;
+    const options = {
+        method : 'GET',
     }
-    else{
 
-        const apiUrl = `http://localhost:2000/item/${item}`;
-        const options = {
-            method: 'GET',
-        }
-        console.log(item);
-
+    try{
         fetch(apiUrl, options).then(res => {
             return res.json();
         }).then(data => {
+        
             console.log(data);
-
             let textarea = document.getElementById('autoHeightTextarea');
             
-            changeElementContentItem(data);
-            auto_grow(textarea);
+            changeElementContentItem(data).then(data => {
+                auto_grow(textarea);
+            }).catch(error => {
+                console.log(error);
+            });
+
+            mainBody.style.display = 'block';
 
         }).catch(error => {
-            console.log(error);
+            console.error(error);
+            console.log('token is not valid');
         });
-
-        // fetch(apiUrl, options).then(res => {
-        //     return res.json();
-        // }).then(data => {
-        //     console.log(data);
-            
-        //     let textarea = document.getElementById('autoHeightTextarea');
-            
-        //     changeElementContent(data);
-        //     auto_grow(textarea);
-
-        // }).catch(error => {
-        //     console.error(error);
-        //     console.log('item is not valid');
-        // });
+    }
+    catch(error){
+        console.log('server is not working');
     }
 }
 

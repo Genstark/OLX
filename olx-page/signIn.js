@@ -17,14 +17,8 @@ function checkingData(){
         email.classList.add('border-danger');
         return false;
     }
-    else if(validPhoneNumber(number.value) === false){
-        email.classList.remove('border-danger');
-
-        number.classList.add('border-danger');
-        return false;
-    }
     else if(password.value.trim().length < 8){
-        number.classList.remove('border-danger');
+        email.classList.remove('border-danger');
 
         password.classList.add('border-danger');
         return false;
@@ -35,7 +29,6 @@ function checkingData(){
         const userData = {
             'UserName': name.value,
             'UserEmail': email.value,
-            'PhoneNumber': number.value,
             'Password': password.value,
         }
 

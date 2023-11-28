@@ -8,32 +8,39 @@ heading.addEventListener('click', () => {
 
 function loginFunction(){
     const sessionData = sessionStorage.getItem('token');
+    const item = sessionStorage.getItem('item');
     const loginOrNot = document.getElementById('loginOrNot');
     const dropDown = document.getElementById('dropdown');
     const name = document.getElementById('name');
     const userName = document.getElementById('userName');
+    const userContact = document.getElementById('userContact');
 
-    const apiUrl = `http://localhost:2000/${sessionData}`;
+    console.log(item);
+
+    const apiUrl = `http://localhost:2000/item/profile/${item}`;
     const options = {
         method: 'GET',
     }
 
-    if(sessionData){
+    if(item){
         fetch(apiUrl, options).then(res => {
             return res.json();
         }).then(data => {
             
             console.log(data);
-            console.log(data['data']['UserName']);
-            loginOrNot.style.display = 'none';
-            dropDown.classList.remove('d-none');
-            name.innerHTML = data['data']['UserName'];
-            userName.innerHTML = data['data']['UserName'];
+            console.log(data['data'].length);
 
-            let arrayLength = data['data']['product'].length; 
+            console.log(data['profile']['UserName']);
+            // loginOrNot.style.display = 'none';
+            // dropDown.classList.remove('d-none');
+            // name.innerHTML = data['profile']['UserName'];
+            userName.innerHTML = data['profile']['UserName'];
+            userContact.innerHTML = data['profile']['PhoneNumber'];
+
+            let arrayLength = data['data'].length;
 
             for(let i=0; i < arrayLength; i++){
-                createElement(data['data']['product'][i]['image-1']['data'], data['data']['product'][i]['productType'], data['data']['product'][i]['overview']);
+                createElement(data['data'][i]['image-1']['data'], data['data'][i]['productType'], data['data'][i]['overview']);
             }
 
         }).catch(error => {
