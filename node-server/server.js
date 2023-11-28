@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 const multer = require('multer');
 const CryptoJS = require("crypto-js");
 
@@ -153,33 +153,119 @@ async function getIndividualProductData(productkey){
 
         const db = client.db('olx');
         const collection = db.collection('Items');
-        const data = await collection.find({}).toArray();
 
-        for(let i=0; i < data.length; i++){
-            if(data[i]['product'][i]['productKey'] === productkey){
-                return data[i]['product'][i];
-            }
-            else{
-                console.log('not found');
-            }
-        }
-        // return await collection.findOne({ productKey : productkey });
+        return await collection.findOne({ _id : new ObjectId(productkey) });
     }
     finally{
         await client.close();
     }
 }
 
-app.get('/item/:id', (req, res) => {
+async function getOwerNameOfProduct(userId){
+    const client = new MongoClient(uri);
+    
+    try{
+        await client.connect();
+
+        const db = client.db('olx');
+        const collection = db.collection('user_data');
+
+        return await collection.findOne({ _id : new ObjectId(userId) });
+    }
+    finally{
+        await client.close();
+    }
+}
+
+app.get('/items/:id', (req, res) => {
     const requestId = req.params.id;
+    console.log(requestId);
 
     getIndividualProductData(requestId).then(data => {
-        res.json({
-            message: 'success',
-            data: data
+        console.log(data);
+        getOwerNameOfProduct(data['user_id']).then(allData => {
+            res.json({
+                message: 'success',
+                data: data,
+                profile: allData
+            });
         });
     }).catch(error => {
         console.log(error);
+    });
+});
+
+/*-------------------------------------------------------------------------------------------------------------------------------- */
+
+async function getUserDataWithProduct(userId){
+    const client = new MongoClient(uri);
+
+    try{
+        await client.connect();
+
+        const db = client.db('olx');
+        const collection = db.collection('Items');
+
+        return await collection.findOne({ _id: new ObjectId(userId) });
+    }
+    finally{
+        await client.close();
+    }
+}
+
+async function getUserProductData(user_id){
+    const client = new MongoClient(uri);
+
+    try{
+        await client.connect();
+
+        const db = client.db('olx');
+        const collection = db.collection('Items');
+
+        return await collection.find({user_id: user_id}).toArray();
+        // return await collection.find({}, { projection: { user_data: '656363895812d276b38e75f4' }}).toArray();
+    }
+    finally{
+        await client.close();
+    }
+}
+
+async function getUserProfile(userId){
+    const client = new MongoClient(uri);
+    
+    try{
+        await client.connect();
+        const db = client.db('olx');
+        const collection = db.collection('user_data');
+
+        return await collection.findOne({_id: new ObjectId(userId)});
+    }
+    finally{
+        await client.close();
+    }
+}
+
+app.get('/item/profile/:itemId', (req, res) => {
+    const requesId = req.params.itemId;
+    console.log(requesId);
+    
+    getUserDataWithProduct(requesId).then(data => {
+        let userOfUser = data['user_id']
+        console.log(userOfUser);
+        getUserProductData(data['user_id']).then(allData => {
+            getUserProfile(userOfUser).then(withName => {
+                res.json({
+                    message: 'ok',
+                    profile: withName,
+                    data: allData
+                })
+            })
+        }).catch(error => {
+            console.log(error);
+        });
+
+    }).catch(err => {
+        console.log(err);
     });
 });
 
@@ -338,7 +424,7 @@ const storage = multer.memoryStorage();
 const upload = multer({storage: storage});
 
 
-app.put('/addProduct', upload.array('files', 3),(req, res) => {
+app.post('/addProduct', upload.array('files', 3),(req, res) => {
 
     // console.log(req.files);
     const userData = req.body;
@@ -376,10 +462,6 @@ app.put('/addProduct', upload.array('files', 3),(req, res) => {
 });
 
 /*-------------------------------------------------------------------------------------------------------------------------------- */
-
-app.put('/', (req, res) => {
-    console.log('req for changes in current data');
-});
 
 app.delete('/', (req, res) => {
     console.log('delete data req');
@@ -444,3 +526,9 @@ When the user is a viewer
 /item               (list of all product without login)
 /item/id            (individual product page)
 */
+
+
+//how to desgine sql and Nosql
+//tips for creating mongodb tabel
+//difference between sql and NoSql
+//what is sql and mongodb
