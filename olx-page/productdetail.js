@@ -14,7 +14,7 @@ async function changeElementContentItem(data){
     const mainImage = document.getElementById('mainImage');
 
     try{
-        sellerName.innerHTML = data['profile']['UserName'];
+        sellerName.innerHTML = data['data']['userName'];
         sellerContact.innerHTML = '**********';
         priceProduct.innerHTML = data['data']['price'];
         userAddress.innerHTML = data['data']['Address'];
@@ -23,14 +23,14 @@ async function changeElementContentItem(data){
         details.value = data['data']['details'];
         mainImage.src = `data:image/png image/jpeg;base64,${data['data']['image-1']['data']}`;
         image1.src = `data:image/png image/jpeg;base64,${data['data']['image-2']['data']}`;
-        // image2.src = `data:image/png image/jpeg;base64,${data['data']['image-3']['data']}`;
+        image2.src = `data:image/png image/jpeg;base64,${data['data']['image-3']['data']}`;
     }
     catch(error){
         console.error(error);
     }
 }
 
-function changeElementContentUser(data){
+async function changeElementContentUser(data){
     const sellerName = document.getElementById('sellerName');
     const sellerContact = document.getElementById('sellerContact');
     const priceProduct = document.getElementById('productPrice');
@@ -43,7 +43,7 @@ function changeElementContentUser(data){
     const mainImage = document.getElementById('mainImage');
 
     try{
-        sellerName.innerHTML = data['profile']['UserName'];
+        sellerName.innerHTML = data['data']['userName'];
         sellerContact.innerHTML = data['data']['phoneNumber'];
         priceProduct.innerHTML = data['data']['price'];
         userAddress.innerHTML = data['data']['Address'];
@@ -52,7 +52,7 @@ function changeElementContentUser(data){
         details.value = data['data']['details'];
         mainImage.src = `data:image/png image/jpeg;base64,${data['data']['image-1']['data']}`;
         image1.src = `data:image/png image/jpeg;base64,${data['data']['image-2']['data']}`;
-        // image2.src = `data:image/png image/jpeg;base64,${data['data']['image-3']['data']}`;
+        image2.src = `data:image/png image/jpeg;base64,${data['data']['image-3']['data']}`;
     }
     catch(error){
         console.error(error);
@@ -64,6 +64,9 @@ function gettingData(){
     const token = sessionStorage.getItem('token');
     const item = sessionStorage.getItem('item');
     const mainBody = document.getElementById('main');
+
+    const username = document.getElementById('username');
+    const login = document.getElementById('login');
     
     console.log(token);
 
@@ -83,11 +86,29 @@ function gettingData(){
             console.log(data);
             let textarea = document.getElementById('autoHeightTextarea');
             
-            changeElementContentItem(data).then(data => {
-                auto_grow(textarea);
-            }).catch(error => {
-                console.log(error);
-            });
+            if(token !== null){
+                
+                username.classList.remove('d-none');
+                username.classList.add('d-block');
+
+                login.classList.remove('d-block');
+                login.classList.add('d-none');
+
+                username.innerHTML = data['data']['userName'];
+                
+                changeElementContentUser(data).then(data => {
+                    auto_grow(textarea);
+                }).catch(error => {
+                    console.log(error);
+                });
+            }
+            else{
+                changeElementContentItem(data).then(data => {
+                    auto_grow(textarea);
+                }).catch(error => {
+                    console.log(error);
+                });
+            }
 
             mainBody.style.display = 'block';
 

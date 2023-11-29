@@ -83,6 +83,7 @@ function loginAccount(){
             if(data['done'] === true){
                 console.log(data);
                 sessionStorage.setItem('token', data['token']);
+                sessionStorage.setItem('data', data['data']);
                 location.href = '../index.html';
                 email.classList.remove('border-danger');
                 password.classList.remove('border-danger');

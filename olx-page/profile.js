@@ -7,15 +7,17 @@ heading.addEventListener('click', () => {
 
 
 function loginFunction(){
-    const sessionData = sessionStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const item = sessionStorage.getItem('item');
     const loginOrNot = document.getElementById('loginOrNot');
-    const dropDown = document.getElementById('dropdown');
-    const name = document.getElementById('name');
     const userName = document.getElementById('userName');
     const userContact = document.getElementById('userContact');
+    const main = document.getElementById('main');
 
-    console.log(item);
+    const dropDown = document.getElementById('dropdown');
+    const name = document.getElementById('name');
+
+    console.log(token);
 
     const apiUrl = `http://localhost:2000/item/profile/${item}`;
     const options = {
@@ -23,25 +25,29 @@ function loginFunction(){
     }
 
     if(item){
+
+        main.style.display = 'none';
+
         fetch(apiUrl, options).then(res => {
             return res.json();
         }).then(data => {
             
             console.log(data);
-            console.log(data['data'].length);
-
-            console.log(data['profile']['UserName']);
-            // loginOrNot.style.display = 'none';
-            // dropDown.classList.remove('d-none');
-            // name.innerHTML = data['profile']['UserName'];
-            userName.innerHTML = data['profile']['UserName'];
-            userContact.innerHTML = data['profile']['PhoneNumber'];
+            
+            userName.innerHTML = data['data'][0]['userName'];
+            userContact.innerHTML = data['data'][0]['phoneNumber'];
 
             let arrayLength = data['data'].length;
 
             for(let i=0; i < arrayLength; i++){
                 createElement(data['data'][i]['image-1']['data'], data['data'][i]['productType'], data['data'][i]['overview']);
             }
+
+            if(token !== null){
+                loginOrNot.innerHTML = data['data'][0]['userName'];
+            }
+
+            main.style.display = 'block';
 
         }).catch(error => {
             console.log(error);
@@ -57,7 +63,7 @@ function createElement(image, productName, overview){
     const allProduct = document.getElementById('allProduct');
 
     allProduct.innerHTML += `
-        <div class="card mb-3 w-100 mt-2" id="nextPage">
+        <div class="card mb-3 w-100 mt-3" id="nextPage">
             <div class="row g-0">
                 <div class="col-md-4">
                     <img src="data:image/png image/jpg;base64,${image}" class="img-fluid rounded-start" alt="produt image">

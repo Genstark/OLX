@@ -1,6 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     const token = sessionStorage.getItem('token');
+    const item = sessionStorage.getItem('item');
+    const withLogin = document.getElementById('withlogin');
+    const withOutLogin = document.getElementById('withoutlogin');
+
     console.log(token);
     
     const apiUrl = 'http://localhost:2000/items';
@@ -18,44 +22,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
         for(let i=0; i < dataLength; i++){
             createElement(data['data'][i]['_id'], data['data'][i]['image-1']['data'], data['data'][i]['productType'], data['data'][i]['overview'], data['data'][i]['state'], data['data'][i]['city']);
+            
+            if(token === data['data'][i]['user_id']){
+                withLogin.classList.remove('d-none');
+                withLogin.classList.add('d-block');
+
+                withOutLogin.style.display = 'none';
+
+                withLogin.innerHTML = `${data['data'][i]['userName']}`;
+            }
         }
 
     }).catch(error => {
         console.log(error);
     });
-
-    // if(token !== null){
-    //     fetch(apiUrl, options).then(res => {
-    //         return res.json();
-    //     }).then(data => {
-    //         console.log(data);
-    //         const dataLength = data['data'].length;
-
-    //         for(let i=0; i < dataLength; i++){
-    //             createElement(data['data'][i]['productKey'], data['data'][i]['image-1']['data'], data['data'][i]['productName'], data['data'][i]['overview'], data['data'][i]['state'], data['data'][i]['city']);
-    //         }
-
-    //     }).catch(error => {
-    //         console.log(error);
-    //     });
-    // }
-    // else{
-        
-    //     fetch(apiUrl, options).then(res => {
-    //         return res.json();
-    //     }).then(data => {
-
-    //         console.log(data);
-    //         // const dataLength = data['data'].length;
-
-    //         // for(let i=0; i < dataLength; i++){
-    //         //     createElement(data['data'][i]['productKey'], data['data'][i]['image-1']['data'], data['data'][i]['productName'], data['data'][i]['overview'], data['data'][i]['state'], data['data'][i]['city']);
-    //         // }
-
-    //     }).catch(error => {
-    //         console.log(error);
-    //     });
-    // }
 });
 
 function createElement(productKey, image, productname, overview, state, city){
@@ -77,8 +57,6 @@ function createElement(productKey, image, productname, overview, state, city){
             </div>
         </div>   
     `;
-
-    //need add a product id
 }
 
 

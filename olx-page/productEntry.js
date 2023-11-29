@@ -87,8 +87,11 @@ function addProduct(){
     const allData = checkData();
 
     let formData = new FormData();
-    
+
+    console.log(sessionStorage.getItem('data'));
+
     formData.append('token', sessionStorage.getItem('token'));
+    formData.append('data', sessionStorage.getItem('data'));
     formData.append('brandname', allData['brandName']);
     formData.append('productType', allData['productType']);
     formData.append('address', allData['address']);
@@ -110,7 +113,7 @@ function addProduct(){
         body: formData,
     };
 
-    
+
     const waiting = document.getElementById('addProduct');
     waiting.textContent = 'Wait....';
     waiting.style.cursor = 'wait';

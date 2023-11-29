@@ -24,38 +24,47 @@
 
             <div class="w-75 m-auto mt-4">
                 <label for="brandname">Brand Name:</label><br>
-                <input type="text" placeholder="brand name" class="form-control" id="brandname" title="brand Name"><br>
+                <input type="text" placeholder="brand name" class="form-control" id="brandname" title="brand Name" required><br>
 
                 <label for="product-type">Product Title:</label><br>
-                <input type="text" placeholder="product type" class="form-control" id="product-type" title="product type"><br>
+                <input type="text" placeholder="product type" class="form-control" id="product-type" title="product type" required><br>
 
+                <label for="category">Category:</label><br>
+                <div class="row pt-1">
+                    <div class="col-12">
+                        <select class="form-select border-primary" id="specificSizeSelect">
+                            <option selected value="Electronics">Electronics</option>
+                            <option value="AutoMobile">AutoMobile</option>
+                            <option value="Bike">Bike</option>
+                        </select>
+                    </div>
+                </div>
+                <br>
+
+                
                 <label for="address">Address:</label><br>
-                <input type="text" placeholder="address" class="form-control" id="address" title="seller address"><br>
+                <input type="text" placeholder="address" class="form-control" id="address" title="seller address" required><br>
 
                 <label for="phonenumber">Phone Number:</label><br>
-                <input type="text" placeholder="phone number" class="form-control" id="phonenumber" title="phone number"><br>
+                <input type="text" placeholder="phone number" class="form-control" id="phonenumber" title="phone number" required><br>
 
                 <label for="state">State:</label><br>
-                <input type="text" placeholder="state" class="form-control" id="state" title="state"><br>
+                <input type="text" placeholder="state" class="form-control" id="state" title="state" required><br>
 
                 <label for="city">City:</label><br>
-                <input type="text" placeholder="city" class="form-control" id="city" title="city"><br>
+                <input type="text" placeholder="city" class="form-control" id="city" title="city" required><br>
 
                 <label for="price">Price:</label><br>
-                <input type="number" placeholder="rupees" class="form-control" id="price" min="100" title="price of product" inputmode="numeric"><br>
+                <input type="number" placeholder="rupees" class="form-control" id="price" min="100" title="price of product" inputmode="numeric" required><br>
                 
                 <label for="images">Images:</label><br>
                 <input type="file" placeholder="image" class="mt-2 mb-4" id="images1" title="1st image upload" accept="image/png, image/jpeg" multiple required><br>
-                <!-- <input type="file" placeholder="image" class="mt-1" id="images2" title="2nd image upload"><br>
-                <input type="file" placeholder="image" class="mt-1" id="images3" title="3rd image upload"><br>
-                <input type="file" placeholder="image" class="mt-1" id="images4" title="4th image upload"><br>
-                <input type="file" placeholder="image" class="mt-1 mb-4" id="images5" title="5th image upload"><br> -->
 
                 <label for="overview">Overview:</label><br>
-                <input type="text" class="form-control" id="overview" title="small detail of product"><br>
+                <input type="text" class="form-control" id="overview" title="small detail of product" required><br>
 
                 <label for="details">Details:</label><br>
-                <textarea class="mt-1 border detail-textarea form-control" id="details" placeholder="Details of your product" oninput="auto_grow(this)"></textarea><br>
+                <textarea class="mt-1 border detail-textarea form-control" id="details" placeholder="Details of your product" oninput="auto_grow(this)" required></textarea><br>
 
                 <button class="btn bg-primary text-white w-100 mt-3" id="addProduct" onclick="addProduct()">Add Product</button>
             </div>
