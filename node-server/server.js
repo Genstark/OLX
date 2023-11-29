@@ -145,6 +145,7 @@ app.get('/items', (req, res) => {
 
 /*-------------------------------------------------------------------------------------------------------------------------------- */
 //when user request for the product page
+
 async function getIndividualProductData(productkey){
     const client = new MongoClient(uri);
 
@@ -161,34 +162,15 @@ async function getIndividualProductData(productkey){
     }
 }
 
-async function getOwerNameOfProduct(userId){
-    const client = new MongoClient(uri);
-    
-    try{
-        await client.connect();
-
-        const db = client.db('olx');
-        const collection = db.collection('user_data');
-
-        return await collection.findOne({ _id : new ObjectId(userId) });
-    }
-    finally{
-        await client.close();
-    }
-}
-
 app.get('/items/:id', (req, res) => {
     const requestId = req.params.id;
     console.log(requestId);
 
     getIndividualProductData(requestId).then(data => {
         console.log(data);
-        getOwerNameOfProduct(data['user_id']).then(allData => {
-            res.json({
-                message: 'success',
-                data: data,
-                profile: allData
-            });
+        res.json({
+            message: 'success',
+            data: data,
         });
     }).catch(error => {
         console.log(error);
@@ -206,39 +188,8 @@ async function getUserDataWithProduct(userId){
         const db = client.db('olx');
         const collection = db.collection('Items');
 
-        return await collection.findOne({ _id: new ObjectId(userId) });
-    }
-    finally{
-        await client.close();
-    }
-}
-
-async function getUserProductData(user_id){
-    const client = new MongoClient(uri);
-
-    try{
-        await client.connect();
-
-        const db = client.db('olx');
-        const collection = db.collection('Items');
-
-        return await collection.find({user_id: user_id}).toArray();
-        // return await collection.find({}, { projection: { user_data: '656363895812d276b38e75f4' }}).toArray();
-    }
-    finally{
-        await client.close();
-    }
-}
-
-async function getUserProfile(userId){
-    const client = new MongoClient(uri);
-    
-    try{
-        await client.connect();
-        const db = client.db('olx');
-        const collection = db.collection('user_data');
-
-        return await collection.findOne({_id: new ObjectId(userId)});
+        const user =  await collection.findOne({ _id: new ObjectId(userId) });
+        return await collection.find({user_id: user['user_id']}).toArray();
     }
     finally{
         await client.close();
@@ -252,16 +203,9 @@ app.get('/item/profile/:itemId', (req, res) => {
     getUserDataWithProduct(requesId).then(data => {
         let userOfUser = data['user_id']
         console.log(userOfUser);
-        getUserProductData(data['user_id']).then(allData => {
-            getUserProfile(userOfUser).then(withName => {
-                res.json({
-                    message: 'ok',
-                    profile: withName,
-                    data: allData
-                })
-            })
-        }).catch(error => {
-            console.log(error);
+        res.json({
+            message: 'ok',
+            data: data
         });
 
     }).catch(err => {
@@ -347,7 +291,8 @@ app.post('/login', (req, res) => {
                 res.json({
                     message: "email and password is correct",
                     done: true,
-                    token: mongoData._id,
+                    token: mongoData['_id'],
+                    data: Encryption(mongoData['UserName'])
                 });
             }
             else{
@@ -370,7 +315,7 @@ app.post('/login', (req, res) => {
 
 /*-------------------------------------------------------------------------------------------------------------------------------- */
 
-async function userAddSellProduct(userdata, fileDocument, userId){
+async function userAddSellProduct(userdata, fileDocument, userId, user){
     const client = new MongoClient(uri);
 
     try{
@@ -380,10 +325,8 @@ async function userAddSellProduct(userdata, fileDocument, userId){
         const db = client.db('olx');
         const collection = db.collection('Items');
 
-        // const sellingProductData = await collection.findOne({ _id : userId });
-        // console.log(sellingProductData);
-
         const data = {
+            'userName' : user,
             'brandName': userdata['brandname'],
             'productType': userdata['productType'],
             'Address': userdata['address'],
@@ -393,23 +336,11 @@ async function userAddSellProduct(userdata, fileDocument, userId){
             'price': userdata['price'],
             'overview': userdata['overview'],
             'details': userdata['details'],
-            // 'productKey': genrateProductKey(),
             'image-1': fileDocument[0],
             'image-2': fileDocument[1],
             'image-3': fileDocument[2],
             'user_id': userId
         }
-
-        // const sellProduct = {
-        //     $set: {
-        //         product: sellingProductData['product']
-        //     }
-        // }
-
-        // sellProduct.$set.product.push(data);
-        // console.log(sellProduct);
-        
-        // await collection.findOneAndUpdate({ _id : userId }, sellProduct, { writeConcern: { w: 'majority' } });
 
         await collection.insertOne(data, {writeConcern: {w: 'majority'}});
     }
@@ -426,11 +357,10 @@ const upload = multer({storage: storage});
 
 app.post('/addProduct', upload.array('files', 3),(req, res) => {
 
-    // console.log(req.files);
     const userData = req.body;
     const userId = req.body.token;
+    const user = Decrypt(req.body.data);
 
-    // console.log(userData);
     let imageCollection = [];
 
     if(req.files.length > 0){
@@ -442,11 +372,10 @@ app.post('/addProduct', upload.array('files', 3),(req, res) => {
             }
 
             imageCollection.push(fileDocument);
-            // console.log(imageCollection);
         }
     }
     
-    userAddSellProduct(userData, imageCollection, userId).then(data => {
+    userAddSellProduct(userData, imageCollection, userId, user).then(data => {
         res.json({
             message: 'success',
             data: 'product is ready to sell'
@@ -454,11 +383,6 @@ app.post('/addProduct', upload.array('files', 3),(req, res) => {
     }).catch(error => {
         console.log(error);
     });
-
-    // res.json({
-    //     message: 'success',
-    //     data: userData
-    // });
 });
 
 /*-------------------------------------------------------------------------------------------------------------------------------- */
@@ -523,6 +447,7 @@ function genrateProductKey(){
 --------------------------------------------------------------
 When the user is a viewer
 --------------------------------------------------------------
+
 /item               (list of all product without login)
 /item/id            (individual product page)
 */
@@ -532,3 +457,5 @@ When the user is a viewer
 //tips for creating mongodb tabel
 //difference between sql and NoSql
 //what is sql and mongodb
+
+//structure query language
