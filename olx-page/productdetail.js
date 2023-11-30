@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', gettingData());
 
 
+let allImage = [];
+
 async function changeElementContentItem(data){
     const sellerName = document.getElementById('sellerName');
     const sellerContact = document.getElementById('sellerContact');
@@ -21,9 +23,17 @@ async function changeElementContentItem(data){
         smallOverview.value = data['data']['overview'];
         state.innerHTML = `${data['data']['state']}/ ${data['data']['city']}`;
         details.value = data['data']['details'];
+
         mainImage.src = `data:image/png image/jpeg;base64,${data['data']['image-1']['data']}`;
+        allImage.push(data['data']['image-1']['data']);
+
         image1.src = `data:image/png image/jpeg;base64,${data['data']['image-2']['data']}`;
+        allImage.push(data['data']['image-2']['data']);
+
         image2.src = `data:image/png image/jpeg;base64,${data['data']['image-3']['data']}`;
+        allImage.push(data['data']['image-3']['data']);
+
+        // console.log(allImage);
     }
     catch(error){
         console.error(error);
@@ -50,9 +60,18 @@ async function changeElementContentUser(data){
         smallOverview.value = data['data']['overview'];
         state.innerHTML = `${data['data']['state']}/ ${data['data']['city']}`;
         details.value = data['data']['details'];
+
+        
         mainImage.src = `data:image/png image/jpeg;base64,${data['data']['image-1']['data']}`;
+        allImage.push(data['data']['image-1']['data']);
+
         image1.src = `data:image/png image/jpeg;base64,${data['data']['image-2']['data']}`;
+        allImage.push(data['data']['image-2']['data']);
+
         image2.src = `data:image/png image/jpeg;base64,${data['data']['image-3']['data']}`;
+        allImage.push(data['data']['image-3']['data']);
+
+        // console.log(allImage);
     }
     catch(error){
         console.error(error);
@@ -134,15 +153,30 @@ userPage.addEventListener('click', () => {
 });
 
 
+
+let img_1 = 0;
+let img_2 = 1;
+
+const mainImage = document.getElementById('mainImage');
 const image1 = document.getElementById('image1');
+const image2 = document.getElementById('image2');
+
 image1.addEventListener('click', () => {
-    image1.src = `data:image/png image/jpeg;base64,${image}`;
+    
+    if(img_1 === 1){
+        image1.src = `data:image/png image/jpeg;base64,${allImage[img_1]}`;
+        mainImage.src = `data:image/png image/jpeg;base64,${allImage[img_2]}`
+        img_1 = 0;
+        img_2 = 1;
+    }
+    else{
+        image1.src = `data:image/png image/jpeg;base64,${allImage[img_1]}`;
+        mainImage.src = `data:image/png image/jpeg;base64,${allImage[img_2]}`
+        img_1 = 1;
+        img_2 = 0;
+    }
 });
 
-const image2 = document.getElementById('image2');
-image2.addEventListener('click', () => {
-    image2.src = `data:image/png image/jpeg;base64,${image}`;
-});
 
 const changeLocation = document.getElementById('heading');
 changeLocation.addEventListener('click', () => {

@@ -66,19 +66,6 @@ function pageChange(key, event){
     console.log(event);
     sessionStorage.setItem('item', key);
     location.href = '/olx-page/productdetail.html';
-
-    // const apiUrl = `http://localhost:2000/product/${key}`;
-    // const options = {
-    //     method: 'GET',
-    // }
-
-    // fetch(apiUrl, options).then(res => {
-    //     return res.json();
-    // }).then(data => {
-    //     console.log(data);
-    // }).catch(error => {
-    //     console.log(error);
-    // });
 }
 
 // Two types of users

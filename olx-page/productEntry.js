@@ -74,7 +74,8 @@ function checkData(){
             'city' : city.value,
             'price' : price.value,
             'overview' : overview.value,
-            'details' : details.value
+            'details' : details.value,
+            
         };
 
         return productData;

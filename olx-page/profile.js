@@ -89,6 +89,6 @@ logout.addEventListener('click', () => {
     dropDown.style.display = 'block';
     loginOrNot.classList.remove('d-none');
     sessionStorage.removeItem('token');
+    sessionStorage.removeItem('data');
     location.reload();
 });
-
