@@ -8,6 +8,7 @@ function checkData(){
     const price = document.getElementById('price');
     const overview = document.getElementById('overview');
     const details = document.getElementById('details');
+    const category = document.getElementById('category');
 
     if(brandName.value.trim() === ''){
         brandName.classList.add('border-danger');
@@ -75,7 +76,7 @@ function checkData(){
             'price' : price.value,
             'overview' : overview.value,
             'details' : details.value,
-            
+            'category' : category.value
         };
 
         return productData;

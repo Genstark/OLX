@@ -62,20 +62,50 @@ function loginFunction(){
 function createElement(image, productName, overview){
     const allProduct = document.getElementById('allProduct');
 
+    // allProduct.innerHTML += `
+    //     <div class="card mb-3 w-100" id="nextPage">
+    //         <div class="row g-0">
+    //             <div class="col-md-4">
+    //                 <img src="data:image/png image/jpg;base64,${image}" class="img-fluid rounded-start image-height" alt="produt image">
+    //             </div>
+    //             <div class="col-md-8">
+    //                 <div class="card-body">
+    //                     <h6 class="card-title">${productName}</h6>
+    //                     <p class="card-text mt-1"><small>${overview}</small></p>
+    //                 </div>
+    //             </div>
+    //         </div>
+    //     </div>
+    // `;
+
+    // allProduct.innerHTML += `
+    //     <div class="card">
+    //         <img src="data:image/png image/jpg;base64,${image}" class="card-img-top" alt="Card Image">
+    //         <div class="card-body">
+    //             <h5 class="card-title">${productName}</h5>
+    //             <p class="card-text">${overview}</p>
+    //             <a href="#" class="btn btn-primary">Learn More</a>
+    //         </div>
+    //     </div>
+    // `;
+
     allProduct.innerHTML += `
-        <div class="card mb-3 w-100 mt-3" id="nextPage">
-            <div class="row g-0">
+
+        <div class="card mb-2 mt-2" style="max-width: 100%;">
+            <div class="row no-gutters">
                 <div class="col-md-4">
-                    <img src="data:image/png image/jpg;base64,${image}" class="img-fluid rounded-start" alt="produt image">
+                    <img src="data:image/png image/jpg;base64,${image}" class="card-img w-100 h-100" style="object-fit: cover;" alt="Card Image">
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
                         <h5 class="card-title">${productName}</h5>
-                        <p class="card-text mt-3">${overview}</p>
+                        <p class="card-text">${overview}</p>
+                        <button class="btn border-danger rounded btn-sm" onlick>Remove</button>
                     </div>
                 </div>
             </div>
         </div>
+
     `;
 }
 

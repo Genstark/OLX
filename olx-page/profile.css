@@ -1,3 +1,7 @@
+.background{
+    background-color: none;
+}
+
 .homepage:hover{
     cursor: pointer;
 }
@@ -8,6 +12,10 @@
 
 .productColumn{
     width: 65%;
+}
+
+.user-background{
+    background-color: #f2f4fa;
 }
 
 @media (min-width: 320px) and (max-width: 576px){
