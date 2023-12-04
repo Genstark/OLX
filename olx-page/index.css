@@ -35,3 +35,40 @@
     height: 100%;
     object-fit: cover;
 }
+
+
+@media (min-width: 320px) and (max-width: 575px){
+    #name{
+        width: 100%;
+    }
+}
+
+@media (min-width: 576px) and (max-width: 785px){
+    #name{
+        width: 100%;
+    }
+}
+
+@media (min-width: 786px) and (max-width: 991px){
+    #name{
+        width: 100px;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199px){
+    #name{
+        width: 135px;
+    }
+}
+
+@media (min-width: 1200px) and (max-width: 1399px){
+    #name{
+        width: 160px;
+    }
+}
+
+@media (min-width: 1400px){
+    #name{
+        width: 195px;
+    }
+}

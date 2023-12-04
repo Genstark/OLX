@@ -38,7 +38,16 @@
 
                 <div class="col-md-2 bg-white text-center">
                     <a href="/olx-page/login.html" class="text-dark form-control border-primary d-block" id="login">Login</a>
-                    <a href="/olx-page/profile.html" class="text-dark form-control border-primary d-none" id="username"></a>
+                    <!-- <a href="/olx-page/profile.html" class="text-dark form-control border-primary d-none" id="username"></a> -->
+
+                    <div class="dropdown d-none col-md-2 col-sm-12" id="dropdown">
+                        <p class="btn btn-white border-primary dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="name">user name</p>
+
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><a class="dropdown-item" href="#" id="logout">Log Out</a></li>
+                        </ul>
+                    </div>
                 </div>
 
                 <div class="col-md-2 bg-white text-center">
@@ -57,8 +66,9 @@
             </div>
             <div class="border border-dark mt-1 rounded">
                 <div class="d-flex pt-1 pb-1 ps-2 row">
-                    <img src="" class="col-xs-1 col-sm-4 col-md-2 col-lg-2 col-xl-2 col-xxl-2 rounded" height="100" width="150" id="image1" alt="image 1">
-                    <img src="" class="col-xs-1 col-sm-4 col-md-2 col-lg-2 col-xl-2 col-xxl-2 rounded" height="100" width="150" id="image2" alt="image 2">
+                    <img src="" class="col-sm-3 col-md-2 col-lg-2 col-xl-2 col-xxl-2 rounded" height="100" width="150" id="image1" alt="image 1">
+                    <img src="" class="col-sm-3 col-md-2 col-lg-2 col-xl-2 col-xxl-2 rounded" height="100" width="150" id="image2" alt="image 2">
+                    <img src="" class="col-sm-3 col-md-2 col-lg-2 col-xl-2 col-xxl-2 rounded" height="100" width="150" id="image3" alt="image 3">
                 </div>
             </div>
 
@@ -79,11 +89,11 @@
                     <textarea class="mt-1 ms-2 border border-dark overview-textarea rounded" placeholder="Overview of your product" id="smallOverview" readonly></textarea>
                 </div>
                 
-                <div class="border border-dark w-50 rounded">
+                <div class="border border-dark w-50 rounded d-flex flex-column">
                     <h2 class="fw-bold mt-2 ms-4">Rs: <span id="productPrice">1,000</span></h2>
-                    <p class="ms-4 fw-bolder overview-height" id="smallOverview">IPhone 15, 256GB storage space gray</p>
-                    <p class="ms-4 small-detail fw-bolder" id="userAddress">Address</p>
-                    <p class="ms-4 small-detail fw-bolder" id="userStateAndCity">State/ City</p>
+                    <!-- <p class="ms-4 fw-bolder overview-height" id="smallOverview"></p> -->
+                    <p class="ms-4 small-detail fw-bolder mt-2" id="userAddress">Address</p>
+                    <p class="ms-4 small-detail fw-bolder mt-auto" id="userStateAndCity">State/ City</p>
                     <!-- <p class="ms-4 small-detail fw-bolder">Time</p> -->
                 </div>
             </div>

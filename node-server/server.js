@@ -201,7 +201,7 @@ app.post('/login', (req, res) => {
                     message: "email and password is correct",
                     done: true,
                     token: mongoData['_id'],
-                    data: Encryption(mongoData['UserName'])
+                    data: mongoData['UserName']
                 });
             }
             else{
@@ -268,7 +268,8 @@ app.post('/addProduct', upload.array('files', 3),(req, res) => {
 
     const userData = req.body;
     const userId = req.body.token;
-    const user = Decrypt(req.body.data);
+    // const user = Decrypt(req.body.data);
+    const user = req.body.data;
 
     let imageCollection = [];
 
@@ -304,7 +305,7 @@ async function deleteItem(itemId){
         const db = client.db('olx');
         const collection = db.collection('Items');
 
-        await collection.deleteOne({ _id : itemId});
+        await collection.deleteOne({ _id : itemId });
     }
     finally{
         await client.close();
@@ -322,8 +323,8 @@ app.delete('/item/:itemId', (req, res) => {
 });
 
 /*-------------------------------------------------------------------------------------------------------------------------------- */
-app.listen(PORT, () => {
 
+app.listen(PORT, () => {
     console.log(`Server started on port http://localhost:${PORT}`);
 });
 

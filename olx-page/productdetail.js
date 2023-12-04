@@ -11,26 +11,31 @@ async function changeElementContentItem(data){
     const smallOverview = document.getElementById('smallOverview');
     const state = document.getElementById('userStateAndCity');
     const details = document.getElementById('autoHeightTextarea');
+    const mainImage = document.getElementById('mainImage');
     const image1 = document.getElementById('image1');
     const image2 = document.getElementById('image2');
-    const mainImage = document.getElementById('mainImage');
+    const image3 = document.getElementById('image3');
 
     try{
         sellerName.innerHTML = data['data']['userName'];
         sellerContact.innerHTML = '**********';
         priceProduct.innerHTML = data['data']['price'];
-        userAddress.innerHTML = data['data']['Address'];
+        // userAddress.innerHTML = data['data']['Address'];
+        userAddress.innerHTML = `Address: **************`;
         smallOverview.value = data['data']['overview'];
         state.innerHTML = `${data['data']['state']}/ ${data['data']['city']}`;
         details.value = data['data']['details'];
 
-        mainImage.src = `data:image/png image/jpeg;base64,${data['data']['image-1']['data']}`;
+        mainImage.src = `${data['data']['image-1']['data']}`;
         allImage.push(data['data']['image-1']['data']);
 
-        image1.src = `data:image/png image/jpeg;base64,${data['data']['image-2']['data']}`;
+        image1.src = `${data['data']['image-1']['data']}`;
+        // allImage.push(data['data']['image-2']['data']);
+
+        image2.src = `${data['data']['image-2']['data']}`;
         allImage.push(data['data']['image-2']['data']);
 
-        image2.src = `data:image/png image/jpeg;base64,${data['data']['image-3']['data']}`;
+        image3.src = `${data['data']['image-3']['data']}`;
         allImage.push(data['data']['image-3']['data']);
 
         // console.log(allImage);
@@ -48,29 +53,33 @@ async function changeElementContentUser(data){
     const smallOverview = document.getElementById('smallOverview');
     const state = document.getElementById('userStateAndCity');
     const details = document.getElementById('autoHeightTextarea');
+    const mainImage = document.getElementById('mainImage');
     const image1 = document.getElementById('image1');
     const image2 = document.getElementById('image2');
-    const mainImage = document.getElementById('mainImage');
-
+    const image3 = document.getElementById('image3');
+    
     try{
         sellerName.innerHTML = data['data']['userName'];
         sellerContact.innerHTML = data['data']['phoneNumber'];
         priceProduct.innerHTML = data['data']['price'];
-        userAddress.innerHTML = data['data']['Address'];
+        userAddress.innerHTML = `Address: ${data['data']['Address']}`;
         smallOverview.value = data['data']['overview'];
         state.innerHTML = `${data['data']['state']}/ ${data['data']['city']}`;
         details.value = data['data']['details'];
 
         
-        mainImage.src = `data:image/png image/jpeg;base64,${data['data']['image-1']['data']}`;
+        mainImage.src = `${data['data']['image-1']['data']}`;
         allImage.push(data['data']['image-1']['data']);
 
-        image1.src = `data:image/png image/jpeg;base64,${data['data']['image-2']['data']}`;
+        image1.src = `${data['data']['image-1']['data']}`;
+        // allImage.push(data['data']['image-1']['data']);
+
+        image2.src = `${data['data']['image-2']['data']}`;
         allImage.push(data['data']['image-2']['data']);
 
-        image2.src = `data:image/png image/jpeg;base64,${data['data']['image-3']['data']}`;
+        image3.src = `${data['data']['image-3']['data']}`;
         allImage.push(data['data']['image-3']['data']);
-
+        
         // console.log(allImage);
     }
     catch(error){
@@ -86,6 +95,9 @@ function gettingData(){
 
     const username = document.getElementById('username');
     const login = document.getElementById('login');
+
+    const dropDown = document.getElementById('dropdown');
+    const name = document.getElementById('name');
     
     console.log(token);
 
@@ -106,16 +118,22 @@ function gettingData(){
             let textarea = document.getElementById('autoHeightTextarea');
             
             if(token !== null){
-                
-                username.classList.remove('d-none');
-                username.classList.add('d-block');
 
                 login.classList.remove('d-block');
                 login.classList.add('d-none');
 
-                username.innerHTML = data['data']['userName'];
+                dropDown.classList.remove('d-none');
+                dropDown.classList.add('d-block');
+                // name.innerHTML = `${data['data']['userName']}`;
+                
+                // username.classList.remove('d-none');
+                // username.classList.add('d-block');
+
+
+                // username.innerHTML = data['data']['userName'];
                 
                 changeElementContentUser(data).then(data => {
+                    name.innerHTML = `${sessionStorage.getItem('data')} 👋`;
                     auto_grow(textarea);
                 }).catch(error => {
                     console.log(error);
@@ -153,28 +171,35 @@ userPage.addEventListener('click', () => {
 });
 
 
+const logout = document.getElementById('logout');
+logout.addEventListener('click', () => {
+    const login = document.getElementById('login');
+    const dropDown = document.getElementById('dropdown');
 
-let img_1 = 0;
-let img_2 = 1;
+    dropDown.style.display = 'block';
+    login.classList.remove('d-none');
+
+    sessionStorage.removeItem('data');
+    sessionStorage.removeItem('token');
+    location.reload();
+});
+
 
 const mainImage = document.getElementById('mainImage');
 const image1 = document.getElementById('image1');
 const image2 = document.getElementById('image2');
+const image3 = document.getElementById('image3');
 
 image1.addEventListener('click', () => {
-    
-    if(img_1 === 1){
-        image1.src = `data:image/png image/jpeg;base64,${allImage[img_1]}`;
-        mainImage.src = `data:image/png image/jpeg;base64,${allImage[img_2]}`
-        img_1 = 0;
-        img_2 = 1;
-    }
-    else{
-        image1.src = `data:image/png image/jpeg;base64,${allImage[img_1]}`;
-        mainImage.src = `data:image/png image/jpeg;base64,${allImage[img_2]}`
-        img_1 = 1;
-        img_2 = 0;
-    }
+    mainImage.src = `${allImage[0]}`;
+});
+
+image2.addEventListener('click', () => {
+    mainImage.src = `${allImage[1]}`;
+});
+
+image3.addEventListener('click', () => {
+    mainImage.src = `${allImage[2]}`;
 });
 
 

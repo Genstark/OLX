@@ -2,8 +2,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const token = sessionStorage.getItem('token');
     const item = sessionStorage.getItem('item');
-    const withLogin = document.getElementById('withlogin');
+    // const withLogin = document.getElementById('withlogin');
     const withOutLogin = document.getElementById('withoutlogin');
+
+    const dropDown = document.getElementById('dropdown');
+    const name = document.getElementById('name');
 
     console.log(token);
     
@@ -24,14 +27,22 @@ document.addEventListener("DOMContentLoaded", () => {
             createElement(data['data'][i]['_id'], data['data'][i]['image-1']['data'], data['data'][i]['productType'], data['data'][i]['overview'], data['data'][i]['state'], data['data'][i]['city']);
             
             if(token === data['data'][i]['user_id']){
-                withLogin.classList.remove('d-none');
-                withLogin.classList.add('d-block');
 
-                withOutLogin.style.display = 'none';
+                dropDown.classList.remove('d-none');
+                withOutLogin.classList.add('d-none');
+                dropDown.classList.add('d-block');
+                name.innerHTML = `${sessionStorage.getItem('data')} 👋`;
 
-                withLogin.innerHTML = `${data['data'][i]['userName']}`;
+                // withLogin.classList.remove('d-none');
+                // withLogin.classList.add('d-block');
+
+                // withLogin.innerHTML = `${data['data'][i]['userName']}`;
             }
         }
+
+        const progress = document.getElementById('progress');
+
+        progress.classList.add('d-none');
 
     }).catch(error => {
         console.log(error);
@@ -45,12 +56,12 @@ function createElement(productKey, image, productname, overview, state, city){
         <div class="card mb-3 w-100 mouseHover" onclick="pageChange('${productKey}', this)">
             <div class="row g-0">
                 <div class="col-md-4">
-                    <img src="data:image/png image/jpeg;base64,${image}" class="img-fluid rounded-start" alt="produt image">
+                    <img src="${image}" class="img-fluid rounded-start" alt="produt image">
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
                         <h5 class="card-title">${productname}</h5>
-                        <p class="card-text mt-3">${overview}</p>
+                        <p class="card-text">${overview}</p>
                         <p class="card-text bottom-text"><small class="text-muted">${state} and ${city}</small></p>
                     </div>
                 </div>
