@@ -296,17 +296,39 @@ app.post('/addProduct', upload.array('files', 3),(req, res) => {
 
 /*-------------------------------------------------------------------------------------------------------------------------------- */
 
-app.delete('/', (req, res) => {
-    console.log('delete data req');
+async function deleteItem(itemId){
+    const client = new MongoClient(uri);
+
+    try{
+        await client.connect();
+        const db = client.db('olx');
+        const collection = db.collection('Items');
+
+        await collection.deleteOne({ _id : itemId});
+    }
+    finally{
+        await client.close();
+    }
+}
+
+app.delete('/item/:itemId', (req, res) => {
+    const deleterequest = req.params.itemId;
+
+    deleteItem(deleterequest).then(data => {
+        res.json({
+            message: 'item is delete'
+        });
+    });
 });
 
-
+/*-------------------------------------------------------------------------------------------------------------------------------- */
 app.listen(PORT, () => {
+
     console.log(`Server started on port http://localhost:${PORT}`);
 });
 
 
-/*---------------------------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------------------------------------------------------------- */
 
 function Encryption(password){
     const ciphertext = CryptoJS.AES.encrypt(password, 'secret key 123').toString();

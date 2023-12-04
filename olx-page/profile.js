@@ -35,16 +35,17 @@ function loginFunction(){
             console.log(data);
             
             userName.innerHTML = data['data'][0]['userName'];
-            userContact.innerHTML = data['data'][0]['phoneNumber'];
+            userContact.innerHTML = '**********';
 
             let arrayLength = data['data'].length;
 
             for(let i=0; i < arrayLength; i++){
-                createElement(data['data'][i]['image-1']['data'], data['data'][i]['productType'], data['data'][i]['overview']);
+                createElement(data['data'][i]['image-1']['data'], data['data'][i]['productType'], data['data'][i]['overview'], data['data'][i]['_id']);
             }
 
             if(token !== null){
                 loginOrNot.innerHTML = data['data'][0]['userName'];
+                userContact.innerHTML = data['data'][0]['phoneNumber'];
             }
 
             main.style.display = 'block';
@@ -59,7 +60,7 @@ function loginFunction(){
 }
 
 
-function createElement(image, productName, overview){
+function createElement(image, productName, overview, id){
     const allProduct = document.getElementById('allProduct');
 
     // allProduct.innerHTML += `
@@ -91,24 +92,42 @@ function createElement(image, productName, overview){
 
     allProduct.innerHTML += `
 
-        <div class="card mb-2 mt-2" style="max-width: 100%;">
+        <div class="card mb-2 mt-2 w-100">
             <div class="row no-gutters">
                 <div class="col-md-4">
-                    <img src="data:image/png image/jpg;base64,${image}" class="card-img w-100 h-100" style="object-fit: cover;" alt="Card Image">
+                    <img src="data:image/png image/jpg;base64,${image}" class="card-img w-100 h-100" alt="Card Image">
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
                         <h5 class="card-title">${productName}</h5>
                         <p class="card-text">${overview}</p>
-                        <button class="btn border-danger rounded btn-sm" onlick>Remove</button>
+                        <button class="btn border-danger rounded btn-sm" onclick="deleteItem(this, '${id}')" title="remove item">Remove</button>
                     </div>
                 </div>
             </div>
         </div>
-
     `;
 }
 
+
+function deleteItem(event, itemId){
+    console.log(event);
+    console.log(itemId);
+
+    const apiUrl = `http://localhost:2000/item/${itemId}`;
+    const options = {
+        method: 'DELETE',
+    };
+
+    fetch(apiUrl, options).then(res => {
+        return res.json();
+    }).then(data => {
+        console.log(data);
+        event.parentNode.parentNode.parentNode.parentNode.remove();
+    }).catch(error => {
+        console.log(error);
+    });
+}
 
 const logout = document.getElementById('logout');
 logout.addEventListener('click', () => {

@@ -68,6 +68,17 @@ function pageChange(key, event){
     location.href = '/olx-page/productdetail.html';
 }
 
+function entryPage(){
+    const token = sessionStorage.getItem('token');
+
+    if(token !== null){
+        location.href = '/olx-page/productEntry.html';
+    }
+    else{
+        location.href = '/olx-page/login.html';
+    }
+}
+
 // Two types of users
 // 1. Seller of  product.
 // 2. Buyer of product.

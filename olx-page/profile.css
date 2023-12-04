@@ -18,6 +18,10 @@
     background-color: #f2f4fa;
 }
 
+.item-image{
+    object-fit: cover;
+}
+
 @media (min-width: 320px) and (max-width: 576px){
     .userColumn{
         width: 100%;
