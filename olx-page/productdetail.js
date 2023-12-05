@@ -23,7 +23,7 @@ async function changeElementContentItem(data){
         // userAddress.innerHTML = data['data']['Address'];
         userAddress.innerHTML = `Address: **************`;
         smallOverview.value = data['data']['overview'];
-        state.innerHTML = `${data['data']['state']}/ ${data['data']['city']}`;
+        state.innerHTML = `${data['data']['state']}`;
         details.value = data['data']['details'];
 
         mainImage.src = `${data['data']['image-1']['data']}`;
@@ -32,11 +32,20 @@ async function changeElementContentItem(data){
         image1.src = `${data['data']['image-1']['data']}`;
         // allImage.push(data['data']['image-2']['data']);
 
-        image2.src = `${data['data']['image-2']['data']}`;
-        allImage.push(data['data']['image-2']['data']);
-
-        image3.src = `${data['data']['image-3']['data']}`;
-        allImage.push(data['data']['image-3']['data']);
+        if(image2.value !== ''){
+            image2.src = `${data['data']['image-2']['data']}`;
+            allImage.push(data['data']['image-2']['data']);
+        }
+        else{
+            image2.style.display = 'none';
+        }
+        if(image3.value !== ''){
+            image3.src = `${data['data']['image-3']['data']}`;
+            allImage.push(data['data']['image-3']['data']);
+        }
+        else{
+            image3.style.display = 'none';
+        }
 
         // console.log(allImage);
     }
@@ -64,7 +73,8 @@ async function changeElementContentUser(data){
         priceProduct.innerHTML = data['data']['price'];
         userAddress.innerHTML = `Address: ${data['data']['Address']}`;
         smallOverview.value = data['data']['overview'];
-        state.innerHTML = `${data['data']['state']}/ ${data['data']['city']}`;
+        // state.innerHTML = `${data['data']['state']}/ ${data['data']['city']}`;
+        state.innerHTML = `${data['data']['state']}`;
         details.value = data['data']['details'];
 
         
@@ -73,12 +83,24 @@ async function changeElementContentUser(data){
 
         image1.src = `${data['data']['image-1']['data']}`;
         // allImage.push(data['data']['image-1']['data']);
+        
+        if(image2.value !== ''){
+            image2.src = `${data['data']['image-2']['data']}`;
+            allImage.push(data['data']['image-2']['data']);
+        }
+        else{
+            image2.style.display = 'none';
+        }
+        if(image3.value !== ''){
+            image3.src = `${data['data']['image-3']['data']}`;
+            allImage.push(data['data']['image-3']['data']);
+        }
+        else{
+            image3.style.display = 'none';
+        }
 
-        image2.src = `${data['data']['image-2']['data']}`;
-        allImage.push(data['data']['image-2']['data']);
-
-        image3.src = `${data['data']['image-3']['data']}`;
-        allImage.push(data['data']['image-3']['data']);
+        // image3.src = `${data['data']['image-3']['data']}`;
+        // allImage.push(data['data']['image-3']['data']);
         
         // console.log(allImage);
     }
@@ -173,15 +195,22 @@ userPage.addEventListener('click', () => {
 
 const logout = document.getElementById('logout');
 logout.addEventListener('click', () => {
-    const login = document.getElementById('login');
     const dropDown = document.getElementById('dropdown');
+    const withOutLogin = document.getElementById('login');
+    const sellerContact = document.getElementById('sellerContact');
+    const userAddress = document.getElementById('userAddress');
 
-    dropDown.style.display = 'block';
-    login.classList.remove('d-none');
+    dropDown.classList.remove('d-block');
+    withOutLogin.classList.add('d-block');
+    withOutLogin.classList.remove('d-none');
+    dropDown.classList.add('d-none');
+
+    sellerContact.innerHTML = `**************`;
+    userAddress.innerHTML = `**********`;
 
     sessionStorage.removeItem('data');
     sessionStorage.removeItem('token');
-    location.reload();
+    // window.location.reload();
 });
 
 

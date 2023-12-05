@@ -236,19 +236,21 @@ async function userAddSellProduct(userdata, fileDocument, userId, user){
 
         const data = {
             'userName' : user,
-            'brandName': userdata['brandname'],
-            'productType': userdata['productType'],
+            // 'brandName': userdata['brandname'],
+            'title': userdata['title'],
             'Address': userdata['address'],
             'phoneNumber': userdata['phonenumber'],
             'state': userdata['state'],
-            'city': userdata['city'],
+            // 'city': userdata['city'],
             'price': userdata['price'],
             'overview': userdata['overview'],
             'details': userdata['details'],
             'image-1': fileDocument[0],
             'image-2': fileDocument[1],
             'image-3': fileDocument[2],
-            'user_id': userId
+            'user_id': userId,
+            'category': userdata['category'],
+            'date': userdata['date']
         }
 
         await collection.insertOne(data, {writeConcern: {w: 'majority'}});

@@ -1,28 +1,28 @@
 function checkData(){
-    const brandName = document.getElementById('brandname');
-    const productType = document.getElementById('product-type');
+    // const brandName = document.getElementById('brandname');
+    const title = document.getElementById('title');
     const address = document.getElementById('address');
     const phoneNumber = document.getElementById('phonenumber');
     const state = document.getElementById('state');
-    const city = document.getElementById('city');
+    // const city = document.getElementById('city');
     const price = document.getElementById('price');
     const overview = document.getElementById('overview');
     const details = document.getElementById('details');
     const category = document.getElementById('category');
 
-    if(brandName.value.trim() === ''){
-        brandName.classList.add('border-danger');
-        brandName.focus();
-        return false;
-    }
-    else if(productType.value.trim() === ''){
-        brandName.classList.remove('border-danger');
-        productType.classList.add('border-danger');
-        productType.focus();
+    // if(brandName.value.trim() === ''){
+    //     brandName.classList.add('border-danger');
+    //     brandName.focus();
+    //     return false;
+    // }
+    if(title.value.trim() === ''){
+        // brandName.classList.remove('border-danger');
+        title.classList.add('border-danger');
+        title.focus();
         return false;
     }
     else if(address.value.trim() === ''){
-        productType.classList.remove('border-danger');
+        title.classList.remove('border-danger');
         address.classList.add('border-danger');
         address.focus();
         return false;
@@ -39,14 +39,16 @@ function checkData(){
         state.focus();
         return false;
     }
-    else if(city.value.trim() === ''){
-        state.classList.remove('border-danger');
-        city.classList.add('border-danger');
-        city.focus();
-        return false;
-    }
+    // else if(city.value.trim() === ''){
+    //     state.classList.remove('border-danger');
+    //     city.classList.add('border-danger');
+    //     city.focus();
+    //     return false;
+    // }
     else if(price.value === null || price.value === undefined){
-        city.classList.remove('border-danger');
+        // city.classList.remove('border-danger');
+
+        state.classList.remove('border-danger');
         price.classList.add('border-danger');
         price.focus();
         return false;
@@ -66,17 +68,23 @@ function checkData(){
     else{
         details.classList.remove('border-danger');
         
+        const currentDate = new Date();
+
+        const dateTimeString = currentDate.toLocaleString();
+        const dateTimeSplit = dateTimeString.split(',')[0];
+
         const productData = {
-            'brandName' : brandName.value,
-            'productType': productType.value,
+            // 'brandName' : brandName.value,
+            'title': title.value,
             'address' : address.value,
             'phoneNumber': phoneNumber.value,
             'state' : state.value,
-            'city' : city.value,
+            // 'city' : city.value,
             'price' : price.value,
             'overview' : overview.value,
             'details' : details.value,
-            'category' : category.value
+            'category' : category.value,
+            'date' : dateTimeSplit
         };
 
         return productData;
@@ -91,18 +99,20 @@ function addProduct(){
     let formData = new FormData();
 
     console.log(sessionStorage.getItem('data'));
-
+    
     formData.append('token', sessionStorage.getItem('token'));
     formData.append('data', sessionStorage.getItem('data'));
-    formData.append('brandname', allData['brandName']);
-    formData.append('productType', allData['productType']);
+    // formData.append('brandname', allData['brandName']);
+    formData.append('category', allData['category']);
+    formData.append('title', allData['title']);
     formData.append('address', allData['address']);
     formData.append('phonenumber', allData['phoneNumber']);
     formData.append('state', allData['state']);
-    formData.append('city', allData['city']);
+    // formData.append('city', allData['city']);
     formData.append('price', allData['price']);
     formData.append('overview', allData['overview']);
     formData.append('details', allData['details']);
+    formData.append('date', allData['date']);
     formData.append('files', image.files[0]);
     formData.append('files', image.files[1]);
     formData.append('files', image.files[2]);

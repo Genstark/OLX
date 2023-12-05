@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const dataLength = data['data'].length;
 
         for(let i=0; i < dataLength; i++){
-            createElement(data['data'][i]['_id'], data['data'][i]['image-1']['data'], data['data'][i]['productType'], data['data'][i]['overview'], data['data'][i]['state'], data['data'][i]['city']);
+            createElement(data['data'][i]['_id'], data['data'][i]['image-1']['data'], data['data'][i]['title'], data['data'][i]['overview'], data['data'][i]['state']);
             
             if(token === data['data'][i]['user_id']){
 
@@ -40,16 +40,13 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
 
-        const progress = document.getElementById('progress');
-
-        progress.classList.add('d-none');
-
     }).catch(error => {
         console.log(error);
     });
 });
 
-function createElement(productKey, image, productname, overview, state, city){
+
+function createElement(productKey, image, title, overview, state){
     const mainContainer = document.getElementById('mainContainer');
 
     mainContainer.innerHTML += `
@@ -60,9 +57,9 @@ function createElement(productKey, image, productname, overview, state, city){
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
-                        <h5 class="card-title">${productname}</h5>
+                        <h5 class="card-title">${title}</h5>
                         <p class="card-text">${overview}</p>
-                        <p class="card-text bottom-text"><small class="text-muted">${state} and ${city}</small></p>
+                        <p class="card-text bottom-text"><small class="text-muted">${state}</small></p>
                     </div>
                 </div>
             </div>
@@ -89,6 +86,24 @@ function entryPage(){
         location.href = '/olx-page/login.html';
     }
 }
+
+const logoutpage = document.getElementById('logout');
+logoutpage.addEventListener('click', () => {
+
+    const dropDown = document.getElementById('dropdown');
+    // const name = document.getElementById('name');
+    const withOutLogin = document.getElementById('withoutlogin');
+
+    dropDown.classList.remove('d-block');
+    withOutLogin.classList.add('d-block');
+    withOutLogin.classList.remove('d-none');
+    dropDown.classList.add('d-none');
+    // name.innerHTML = `${sessionStorage.getItem('data')}👋`;
+
+    sessionStorage.removeItem('data');
+    sessionStorage.removeItem('token');
+    // window.location.reload();
+});
 
 // Two types of users
 // 1. Seller of  product.

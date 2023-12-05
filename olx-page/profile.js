@@ -11,9 +11,9 @@ function loginFunction(){
     const item = sessionStorage.getItem('item');
     const loginOrNot = document.getElementById('loginOrNot');
     const userName = document.getElementById('userName');
-    const userContact = document.getElementById('userContact');
     const main = document.getElementById('main');
-    const userAddress = document.getElementById('userAddress')
+    const userAddress = document.getElementById('userAddress');
+    const userContact = document.getElementById('userContact');
 
     const dropDown = document.getElementById('dropdown');
     const name = document.getElementById('name');
@@ -42,7 +42,7 @@ function loginFunction(){
             let arrayLength = data['data'].length;
 
             for(let i=0; i < arrayLength; i++){
-                createElement(data['data'][i]['image-1']['data'], data['data'][i]['productType'], data['data'][i]['overview'], data['data'][i]['_id'], data['data'][i]['Address']);
+                createElement(data['data'][i]['image-1']['data'], data['data'][i]['title'], data['data'][i]['overview'], data['data'][i]['_id'], data['data'][i]['Address']);
             }
 
             if(token !== null){
@@ -118,12 +118,21 @@ function deleteItem(event, itemId){
 const logout = document.getElementById('logout');
 logout.addEventListener('click', () => {
 
-    const loginOrNot = document.getElementById('loginOrNot');
     const dropDown = document.getElementById('dropdown');
+    const loginOrNot = document.getElementById('loginOrNot');
+    const userAddress = document.getElementById('userAddress');
+    const userContact = document.getElementById('userContact');
 
-    dropDown.style.display = 'block';
+    dropDown.classList.remove('d-block');
+    loginOrNot.classList.add('d-block');
     loginOrNot.classList.remove('d-none');
-    sessionStorage.removeItem('token');
+    dropDown.classList.add('d-none');
+
+    loginOrNot.innerHTML = `Login`;
+    userAddress.innerText = '*************';
+    userContact.innerText = '**********';
+
     sessionStorage.removeItem('data');
-    location.reload();
+    sessionStorage.removeItem('token');
+    // window.location.reload();
 });
