@@ -133,7 +133,7 @@ function gettingData(){
                 // username.innerHTML = data['data']['userName'];
                 
                 changeElementContentUser(data).then(data => {
-                    name.innerHTML = `${sessionStorage.getItem('data')} 👋`;
+                    name.innerHTML = `${sessionStorage.getItem('data')}👋`;
                     auto_grow(textarea);
                 }).catch(error => {
                     console.log(error);

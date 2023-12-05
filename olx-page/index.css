@@ -37,6 +37,11 @@
 }
 
 
+#name{
+    overflow: hidden;
+}
+
+
 @media (min-width: 320px) and (max-width: 575px){
     #name{
         width: 100%;
