@@ -49,7 +49,7 @@ function loginFunction(){
                 dropDown.classList.remove('d-none');
                 loginOrNot.classList.add('d-none');
                 dropDown.classList.add('d-block');
-                name.innerText = `${data['data'][0].userName} 👋`;
+                name.innerText = `${sessionStorage.getItem('data')}👋`;
                 loginOrNot.innerHTML = data['data'][0]['userName'];
                 userContact.innerHTML = data['data'][0]['phoneNumber'];
                 userAddress.innerHTML = data['data'][0]['Address'];

@@ -23,6 +23,9 @@
 }
 
 
+#name{
+    overflow: hidden;
+}
 
 @media (min-width: 320px) and (max-width: 575px){
     .userColumn{

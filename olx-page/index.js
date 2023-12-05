@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 dropDown.classList.remove('d-none');
                 withOutLogin.classList.add('d-none');
                 dropDown.classList.add('d-block');
-                name.innerHTML = `${sessionStorage.getItem('data')} 👋`;
+                name.innerHTML = `${sessionStorage.getItem('data')}👋`;
 
                 // withLogin.classList.remove('d-none');
                 // withLogin.classList.add('d-block');
