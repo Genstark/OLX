@@ -326,6 +326,41 @@ app.delete('/item/:itemId', (req, res) => {
 
 /*-------------------------------------------------------------------------------------------------------------------------------- */
 
+async function filterItems(query){
+    const client = new MongoClient(uri);
+
+    try{
+        await client.connect();
+        const db = client.db('olx');
+        const collection = db.collection('Items');
+
+        const data = await collection.find({title: query}).toArray();
+
+        return data;
+    }
+    finally{
+        await client.close();
+    }
+}
+
+
+app.get('/item/search/:query', (req, res) => {
+    const query = req.params.query;
+
+    filterItems(query).then(data => {
+        console.log(data);    
+        res.json({
+            message: 'ok',
+            data: data
+        });
+
+    }).catch(error => {
+        console.log(error);
+    });
+});
+
+/*-------------------------------------------------------------------------------------------------------------------------------- */
+
 app.listen(PORT, () => {
     console.log(`Server started on port http://localhost:${PORT}`);
 });

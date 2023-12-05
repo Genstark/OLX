@@ -68,6 +68,10 @@ function createElement(productKey, image, title, overview, state){
 }
 
 
+const reloadHeading = document.querySelector('.heading');
+reloadHeading.addEventListener('click', () => {
+    location.reload();
+})
 
 function pageChange(key, event){
     console.log(key);
@@ -75,6 +79,44 @@ function pageChange(key, event){
     sessionStorage.setItem('item', key);
     location.href = '/olx-page/productdetail.html';
 }
+
+document.addEventListener('keypress', (event) => {
+    if(event.key === 'Enter'){
+        query();
+    }
+});
+
+function query(){
+    const search = document.getElementById('search').value;
+    const state = document.getElementById('state');
+
+    console.log('wait.....');
+
+    const apiUrl = `http://localhost:2000/item/search/${search}`;
+    const options = {
+        method : 'GET',
+    }
+
+    fetch(apiUrl ,options).then((response)=> {
+        return response.json();
+    }).then(data => {
+        console.log(data);
+
+        const dataLength = data['data'].length;
+
+        const mainContainer = document.getElementById('mainContainer');
+
+        mainContainer.innerHTML = '';
+
+        for(let i=0; i < dataLength; i++){
+            createElement(data['data'][i]['_id'], data['data'][i]['image-1']['data'], data['data'][i]['title'], data['data'][i]['overview'], data['data'][i]['state']);
+        }
+
+    }).catch(error => {
+        console.log(error);
+    });
+}
+
 
 function entryPage(){
     const token = sessionStorage.getItem('token');
