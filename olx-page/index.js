@@ -87,7 +87,7 @@ document.addEventListener('keypress', (event) => {
 });
 
 function query(){
-    const search = document.getElementById('search').value;
+    const search = document.getElementById('search').value.split(' ')[0];
     const state = document.getElementById('state');
 
     console.log('wait.....');

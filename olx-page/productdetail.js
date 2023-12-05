@@ -182,6 +182,74 @@ function gettingData(){
 }
 
 
+
+document.addEventListener('keypress', (event) => {
+    if(event.key === 'Enter'){
+        query();
+    }
+});
+
+
+function query(){
+    const search = document.getElementById('search').value.split(' ')[0];
+    const state = document.getElementById('state');
+
+    console.log('wait.....');
+
+    const apiUrl = `http://localhost:2000/item/search/${search}`;
+    const options = {
+        method : 'GET',
+    }
+
+    fetch(apiUrl ,options).then((response)=> {
+        return response.json();
+    }).then(data => {
+        console.log(data);
+
+        const dataLength = data['data'].length;
+
+        const mainContainer = document.getElementById('mainContainer');
+
+        mainContainer.innerHTML = '';
+
+        for(let i=0; i < dataLength; i++){
+            createElement(data['data'][i]['_id'], data['data'][i]['image-1']['data'], data['data'][i]['title'], data['data'][i]['overview'], data['data'][i]['state']);
+        }
+
+    }).catch(error => {
+        console.log(error);
+    });
+}
+
+
+function createElement(productKey, image, title, overview, state){
+    const mainContainer = document.getElementById('mainContainer');
+
+    mainContainer.innerHTML += `
+        <div class="card mt-2 mb-3 w-100 mouseHover" onclick="pageChange('${productKey}', this)">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="${image}" class="img-fluid rounded-start" alt="produt image">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">${title}</h5>
+                        <p class="card-text">${overview}</p>
+                        <p class="card-text bottom-text"><small class="text-muted">${state}</small></p>
+                    </div>
+                </div>
+            </div>
+        </div>   
+    `;
+}
+
+function pageChange(key, event){
+    console.log(key);
+    console.log(event);
+    sessionStorage.setItem('item', key);
+    location.href = '/olx-page/productdetail.html';
+}
+
 function auto_grow(element) {
     element.style.height = "auto";
     element.style.height = (element.scrollHeight) + "px";
@@ -195,6 +263,7 @@ userPage.addEventListener('click', () => {
 
 const logout = document.getElementById('logout');
 logout.addEventListener('click', () => {
+
     const dropDown = document.getElementById('dropdown');
     const withOutLogin = document.getElementById('login');
     const sellerContact = document.getElementById('sellerContact');

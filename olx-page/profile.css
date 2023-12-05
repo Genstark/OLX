@@ -6,6 +6,10 @@
     cursor: pointer;
 }
 
+.mouseHover:hover{
+    cursor: pointer;
+}
+
 .userColumn{
     width: 35%;
 }
@@ -21,7 +25,6 @@
 .item-image{
     object-fit: cover;
 }
-
 
 #name{
     overflow: hidden;
