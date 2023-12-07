@@ -1,0 +1,21 @@
+.background{
+    background-color: #DDFFF7;
+}
+
+.mousepointer{
+    font-weight: bold;
+    color: gray;
+}
+
+.mousepointer:hover{
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+#loginbox{
+    margin-top: 1px;
+}
+
+.homepage{
+    cursor: pointer;
+}
