@@ -211,6 +211,15 @@ userPage.addEventListener('click', () => {
 });
 
 
+const profilePage = document.getElementById('profilePage');
+profilePage.addEventListener('click', () => {
+    const token = sessionStorage.getItem('token');
+    const data = sessionStorage.getItem('data');
+
+    profilePage.href = `http://localhost:2000/home/user/profile/${data}/${token}`;
+});
+
+
 const logout = document.getElementById('logout');
 logout.addEventListener('click', () => {
 

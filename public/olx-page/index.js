@@ -79,6 +79,14 @@ function pageChange(key, event){
     location.href = `http://localhost:2000/home/item/${key}`;
 }
 
+const profilePage = document.getElementById('profilePage');
+profilePage.addEventListener('click', () => {
+    const token = sessionStorage.getItem('token');
+    const data = sessionStorage.getItem('data');
+
+    profilePage.href = `http://localhost:2000/home/user/profile/${data}/${token}`;
+});
+
 document.addEventListener('keypress', (event) => {
     if(event.key === 'Enter'){
         query();
