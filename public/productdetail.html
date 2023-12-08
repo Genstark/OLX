@@ -58,7 +58,14 @@
     </header>
 
     <main id="main">
+
+        <div class="ring" id="ring">
+            Loading
+            <span class="mainRing"></span>
+        </div>
+        
         <div class="container mt-2" id="mainContainer">
+
             <div class="border border-dark d-flex justify-content-center rounded">
                 <div class="d-flex justify-content-center">
                     <img src="" alt="main product image" class="image" id="mainImage">
@@ -91,10 +98,8 @@
                 
                 <div class="border border-dark w-50 rounded d-flex flex-column">
                     <h2 class="fw-bold mt-2 ms-4">Rs: <span id="productPrice">1,000</span></h2>
-                    <!-- <p class="ms-4 fw-bolder overview-height" id="smallOverview"></p> -->
                     <p class="ms-4 small-detail fw-bolder mt-2" id="userAddress">Address</p>
                     <p class="ms-4 small-detail fw-bolder mt-auto" id="userStateAndCity">State/ City</p>
-                    <!-- <p class="ms-4 small-detail fw-bolder">Time</p> -->
                 </div>
             </div>
 
@@ -102,9 +107,9 @@
                 <h3 class="mt-2 ms-2 fw-bold">Details</h3>
                 <textarea class="mt-1 ms-2 border border-dark detail-textarea rounded" id="autoHeightTextarea" placeholder="Details of your product" oninput="auto_grow(this)" readonly></textarea>
             </div>
+
         </div>
 
-        
     </main>
 
     <footer></footer>
