@@ -8,8 +8,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const dropDown = document.getElementById('dropdown');
     const name = document.getElementById('name');
 
-    console.log(token);
-    
+    const mainContainer = document.getElementById('mainContainer');
+
+    mainContainer.style.display = 'none';
+
+    // console.log(token);
+
+    const loadingRing = document.getElementById('ring');
+    loadingRing.style.display = 'block';
+
     const apiUrl = 'http://localhost:2000/items';
     const options = {
         method : "GET",
@@ -39,6 +46,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 // withLogin.innerHTML = `${data['data'][i]['userName']}`;
             }
         }
+
+        loadingRing.style.display = 'none';
+        mainContainer.style.display = 'block'
 
     }).catch(error => {
         console.log(error);
@@ -97,7 +107,13 @@ function query(){
     const search = document.getElementById('search').value.split(' ')[0];
     const state = document.getElementById('state');
 
+    const mainContainer = document.getElementById('mainContainer');
+    mainContainer.innerHTML = '';
+
     console.log('wait.....');
+
+    const loadingRing = document.getElementById('ring');
+    loadingRing.style.display = 'block';
 
     const apiUrl = `http://localhost:2000/item/search/${search}`;
     const options = {
@@ -111,13 +127,11 @@ function query(){
 
         const dataLength = data['data'].length;
 
-        const mainContainer = document.getElementById('mainContainer');
-
-        mainContainer.innerHTML = '';
-
         for(let i=0; i < dataLength; i++){
             createElement(data['data'][i]['_id'], data['data'][i]['image-1']['data'], data['data'][i]['title'], data['data'][i]['overview'], data['data'][i]['state']);
         }
+
+        loadingRing.style.display = 'none';
 
     }).catch(error => {
         console.log(error);
@@ -165,5 +179,3 @@ logoutpage.addEventListener('click', () => {
 //    - Location
 //    - Price
 //    - Availability
-//    - Auto login
-//    - OTP

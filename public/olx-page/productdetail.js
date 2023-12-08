@@ -119,7 +119,7 @@ async function changeElementContentUser(data){
 function gettingData(){
     const token = sessionStorage.getItem('token');
     const item = sessionStorage.getItem('item');
-    const mainBody = document.getElementById('main');
+    const mainBody = document.getElementById('mainContainer');
 
     const username = document.getElementById('username');
     const login = document.getElementById('login');
@@ -132,6 +132,8 @@ function gettingData(){
 
     mainBody.style.display = 'none';
 
+
+    const loadingRing = document.getElementById('ring');
 
     const apiUrl = `http://localhost:2000/items/${urlData}`;
     const options = {
@@ -146,6 +148,8 @@ function gettingData(){
             console.log(data);
             let textarea = document.getElementById('autoHeightTextarea');
             
+            loadingRing.style.display = 'none';
+
             if(token !== null){
 
                 login.classList.remove('d-block');
@@ -278,7 +282,13 @@ function query(){
     const search = document.getElementById('search').value.split(' ')[0];
     const state = document.getElementById('state');
 
+    const mainContainer = document.getElementById('mainContainer');
+    mainContainer.innerHTML = '';
+
     console.log('wait.....');
+
+    const loadingRing = document.getElementById('ring');
+    loadingRing.style.display = 'block';
 
     const apiUrl = `http://localhost:2000/item/search/${search}`;
     const options = {
@@ -292,13 +302,11 @@ function query(){
 
         const dataLength = data['data'].length;
 
-        const mainContainer = document.getElementById('mainContainer');
-
-        mainContainer.innerHTML = '';
-
         for(let i=0; i < dataLength; i++){
             createElement(data['data'][i]['_id'], data['data'][i]['image-1']['data'], data['data'][i]['title'], data['data'][i]['overview'], data['data'][i]['state']);
         }
+
+        loadingRing.style.display = 'none';
 
     }).catch(error => {
         console.log(error);

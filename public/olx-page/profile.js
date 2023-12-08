@@ -23,7 +23,7 @@ function loginFunction(){
     const item = sessionStorage.getItem('item');
     const loginOrNot = document.getElementById('loginOrNot');
     const userName = document.getElementById('userName');
-    const main = document.getElementById('main');
+    const mainContainer = document.getElementById('mainContainer');
     const userAddress = document.getElementById('userAddress');
     const userContact = document.getElementById('userContact');
     const button = document.querySelectorAll('.removeButton');
@@ -40,7 +40,10 @@ function loginFunction(){
     }
 
 
-    main.style.display = 'none';
+    mainContainer.style.display = 'none';
+
+    const loadingRing = document.getElementById('ring');
+    loadingRing.style.display = 'block';
 
     fetch(apiUrl, options).then(res => {
         return res.json();
@@ -77,7 +80,8 @@ function loginFunction(){
             userAddress.innerHTML = data['data'][0]['Address'];
         }
 
-        main.style.display = 'block';
+        loadingRing.style.display = 'none';
+        mainContainer.style.display = 'block';
 
     }).catch(error => {
         console.log(error);
@@ -90,7 +94,6 @@ function createElement(image, productName, overview, id){
 
 
     allProduct.innerHTML += `
-
         <div class="card mb-2 mt-2 w-100">
             <div class="row no-gutters mouseHover">
                 <div class="col-md-4">
@@ -144,7 +147,14 @@ function query(){
     const search = document.getElementById('search').value.split(' ')[0];
     const state = document.getElementById('state');
 
+    const mainContainer = document.getElementById('mainContainer');
+    mainContainer.innerHTML = '';
+
     console.log('wait.....');
+
+    const loadingRing = document.getElementById('ring');
+    loadingRing.style.display = 'block';
+
 
     const apiUrl = `http://localhost:2000/item/search/${search}`;
     const options = {
@@ -158,13 +168,11 @@ function query(){
 
         const dataLength = data['data'].length;
 
-        const mainContainer = document.getElementById('mainContainer');
-
-        mainContainer.innerHTML = '';
-
         for(let i=0; i < dataLength; i++){
             createNewElement(data['data'][i]['_id'], data['data'][i]['image-1']['data'], data['data'][i]['title'], data['data'][i]['overview'], data['data'][i]['state']);
         }
+
+        loadingRing.style.display = 'none';
 
     }).catch(error => {
         console.log(error);

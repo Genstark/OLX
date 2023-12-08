@@ -149,7 +149,6 @@ function addProduct(){
     catch (error) {
         console.error('Error uploading images:', error);
     }
-
 }
 
 function validPhoneNumber(number){
@@ -163,8 +162,8 @@ changeLocation.addEventListener('click', () => {
 });
 
 function auto_grow(element) {
-    element.style.height = "auto";
-    element.style.height = (element.scrollHeight) + "px";
+    element.style.height = 'auto';
+    element.style.height = (element.scrollHeight) + 'px';
 }
 
 document.addEventListener('DOMContentLoaded', function() {
