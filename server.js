@@ -57,7 +57,7 @@ async function getAllItemsMongoDB(){
 app.get('/items', (req, res) => {
     
     getAllItemsMongoDB().then(data => {
-        console.log(data);
+        // console.log(data);
 
         res.json({
             message: 'Success',
@@ -98,7 +98,7 @@ app.get('/items/:id', (req, res) => {
     console.log(requestId);
 
     getIndividualProductData(requestId).then(data => {
-        console.log(data);
+        // console.log(data);
         res.json({
             message: 'success',
             data: data,
@@ -228,7 +228,7 @@ app.post('/login', (req, res) => {
 
     loginDataMongodb(postData['email']).then(data => {
         const mongoData = data;
-        console.log(mongoData);
+        // console.log(mongoData);
 
         if(mongoData !== null){
             if(mongoData['UserEmail'] === postData['email'] && Decrypt(mongoData['Password']) === postData['password']){
@@ -392,7 +392,7 @@ app.get('/item/search/:query', (req, res) => {
     const query = req.params.query;
 
     filterItems(query).then(data => {
-        console.log(data);    
+        // console.log(data);
         res.json({
             message: 'ok',
             data: data
