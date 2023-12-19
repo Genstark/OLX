@@ -110,7 +110,7 @@ app.get('/items/:id', (req, res) => {
 
 
 app.get('/home/item/:itemId', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', '/productdetail.html'))
+    res.sendFile(path.join(__dirname, 'public', '/productdetail.html'));
 });
 
 /*-------------------------------------------------------------------------------------------------------------------------------- */
