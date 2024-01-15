@@ -86,7 +86,7 @@ function pageChange(key, event){
     console.log(key);
     console.log(event);
     sessionStorage.setItem('item', key);
-    location.href = `https://cmp-olx.onrender.com/home/item/${key}`;
+    location.href = `https://cmp-olx.onrender.com/item/${key}`;
 }
 
 const profilePage = document.getElementById('profilePage');
@@ -94,7 +94,7 @@ profilePage.addEventListener('click', () => {
     const token = sessionStorage.getItem('token');
     const data = sessionStorage.getItem('data');
 
-    profilePage.href = `https://cmp-olx.onrender.com/home/user/profile/${data}/${token}`;
+    profilePage.href = `https://cmp-olx.onrender.com/user/profile/${data}/${token}`;
 });
 
 document.addEventListener('keypress', (event) => {

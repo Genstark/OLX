@@ -158,7 +158,7 @@ function validPhoneNumber(number){
 
 const changeLocation = document.getElementById('heading');
 changeLocation.addEventListener('click', () => {
-    location.href = 'https://cmp-olx.onrender.com/home';
+    location.href = 'https://cmp-olx.onrender.com';
 });
 
 function auto_grow(element) {

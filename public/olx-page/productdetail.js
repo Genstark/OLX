@@ -211,7 +211,7 @@ addProductPage.addEventListener('click', () => {
 
 const userPage= document.getElementById('userPage');
 userPage.addEventListener('click', () => {
-    window.location.href = `https://cmp-olx.onrender.com/home/user/profile/${user_name}/${userId}`;
+    window.location.href = `https://cmp-olx.onrender.com/user/profile/${user_name}/${userId}`;
 });
 
 
@@ -220,7 +220,7 @@ profilePage.addEventListener('click', () => {
     const token = sessionStorage.getItem('token');
     const data = sessionStorage.getItem('data');
 
-    profilePage.href = `https://cmp-olx.onrender.com/home/user/profile/${data}/${token}`;
+    profilePage.href = `https://cmp-olx.onrender.com/user/profile/${data}/${token}`;
 });
 
 
@@ -266,7 +266,7 @@ image3.addEventListener('click', () => {
 
 const changeLocation = document.getElementById('heading');
 changeLocation.addEventListener('click', () => {
-    location.href = 'https://cmp-olx.onrender.com/home';
+    location.href = 'https://cmp-olx.onrender.com';
 });
 
 
@@ -339,5 +339,5 @@ function pageChange(key, event){
     console.log(key);
     console.log(event);
     sessionStorage.setItem('item', key);
-    location.href = `https://cmp-olx.onrender.com/home/item/${key}`;
+    location.href = `https://cmp-olx.onrender.com/item/${key}`;
 }

@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', loginFunction);
 
 const heading = document.getElementById('heading');
 heading.addEventListener('click', () => {
-    location.href = 'https://cmp-olx.onrender.com/home';
+    location.href = 'https://cmp-olx.onrender.com';
 });
 
 const addProductPage = document.getElementById('addProduct');
@@ -114,7 +114,7 @@ function createElement(image, productName, overview, id){
 
 function changeView(event, itemId){
     sessionStorage.setItem('item', itemId);
-    location.href = `https://cmp-olx.onrender.com/home/item/${itemId}`;
+    location.href = `https://cmp-olx.onrender.com/item/${itemId}`;
 }
 
 function deleteItem(event, itemId){
@@ -205,7 +205,7 @@ function pageChange(key, event){
     // console.log(key);
     // console.log(event);
     sessionStorage.setItem('item', key);
-    location.href = `https://cmp-olx.onrender.com/home/item/${key}`;
+    location.href = `https://cmp-olx.onrender.com/item/${key}`;
 }
 
 

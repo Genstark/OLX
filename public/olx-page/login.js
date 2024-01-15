@@ -5,7 +5,7 @@ registration.addEventListener('click', () => {
 
 const homePage = document.querySelector('.homepage');
 homePage.addEventListener('click', () => {
-    location.href = 'https://cmp-olx.onrender.com/home';
+    location.href = 'https://cmp-olx.onrender.com';
 });
 
 
@@ -84,7 +84,7 @@ function loginAccount(){
                 console.log(data);
                 sessionStorage.setItem('token', data['token']);
                 sessionStorage.setItem('data', data['data']);
-                location.href = 'https://cmp-olx.onrender.com/home';
+                location.href = 'https://cmp-olx.onrender.com';
                 email.classList.remove('border-danger');
                 password.classList.remove('border-danger');
             }

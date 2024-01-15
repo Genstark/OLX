@@ -84,7 +84,7 @@ function createAccount(){
 
 const homePage = document.querySelector('.homepage');
 homePage.addEventListener('click', () => {
-    location.href = 'https://cmp-olx.onrender.com/home';
+    location.href = 'https://cmp-olx.onrender.com';
 });
 
 
