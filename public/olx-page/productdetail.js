@@ -211,7 +211,7 @@ addProductPage.addEventListener('click', () => {
 
 const userPage= document.getElementById('userPage');
 userPage.addEventListener('click', () => {
-    window.location.href = `https://cmp-olx.onrender.com/user/profile/${user_name}/${userId}`;
+    window.location.href = `https://cmp-olx.onrender.com/profile/${user_name}/${userId}`;
 });
 
 
@@ -220,7 +220,7 @@ profilePage.addEventListener('click', () => {
     const token = sessionStorage.getItem('token');
     const data = sessionStorage.getItem('data');
 
-    profilePage.href = `https://cmp-olx.onrender.com/user/profile/${data}/${token}`;
+    profilePage.href = `https://cmp-olx.onrender.com/profile/${data}/${token}`;
 });
 
 

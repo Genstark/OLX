@@ -109,7 +109,7 @@ app.get('/items/:id', (req, res) => {
 });
 
 
-app.get('/home/item/:itemId', (req, res) => {
+app.get('/item/:itemId', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', '/productdetail.html'));
 });
 
@@ -150,7 +150,7 @@ app.get('/item/profile/:itemId', (req, res) => {
 });
 
 
-app.get('/home/user/profile/:username/:userId', (req, res) => {
+app.get('/profile/:username/:userId', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', '/profile.html'));
 });
 
