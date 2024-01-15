@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const loadingRing = document.getElementById('ring');
     loadingRing.style.display = 'block';
 
-    const apiUrl = 'http://localhost:2000/items';
+    const apiUrl = 'https://cmp-olx.onrender.com/items';
     const options = {
         method : "GET",
     };
@@ -86,7 +86,7 @@ function pageChange(key, event){
     console.log(key);
     console.log(event);
     sessionStorage.setItem('item', key);
-    location.href = `http://localhost:2000/home/item/${key}`;
+    location.href = `https://cmp-olx.onrender.com/home/item/${key}`;
 }
 
 const profilePage = document.getElementById('profilePage');
@@ -94,7 +94,7 @@ profilePage.addEventListener('click', () => {
     const token = sessionStorage.getItem('token');
     const data = sessionStorage.getItem('data');
 
-    profilePage.href = `http://localhost:2000/home/user/profile/${data}/${token}`;
+    profilePage.href = `https://cmp-olx.onrender.com/home/user/profile/${data}/${token}`;
 });
 
 document.addEventListener('keypress', (event) => {
@@ -115,7 +115,7 @@ function query(){
     const loadingRing = document.getElementById('ring');
     loadingRing.style.display = 'block';
 
-    const apiUrl = `http://localhost:2000/item/search/${search}`;
+    const apiUrl = `https://cmp-olx.onrender.com/item/search/${search}`;
     const options = {
         method : 'GET',
     }
@@ -143,10 +143,10 @@ function entryPage(){
     const token = sessionStorage.getItem('token');
 
     if(token !== null){
-        location.href = 'http://localhost:2000/addProduct';
+        location.href = 'https://cmp-olx.onrender.com/addProduct';
     }
     else{
-        location.href = 'http://localhost:2000/login';
+        location.href = 'https://cmp-olx.onrender.com/login';
     }
 }
 

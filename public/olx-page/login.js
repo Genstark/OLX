@@ -1,11 +1,11 @@
 const registration = document.getElementById('registration');
 registration.addEventListener('click', () => {
-    location.href = 'http://localhost:2000/signIn';
+    location.href = 'https://cmp-olx.onrender.com/signIn';
 });
 
 const homePage = document.querySelector('.homepage');
 homePage.addEventListener('click', () => {
-    location.href = 'http://localhost:2000/home';
+    location.href = 'https://cmp-olx.onrender.com/home';
 });
 
 
@@ -59,7 +59,7 @@ function loginAccount(){
     }
     else{
         
-        const apiUrl = 'http://localhost:2000/login';
+        const apiUrl = 'https://cmp-olx.onrender.com/login';
         const options = {
             method: "POST",
             headers:{
@@ -84,7 +84,7 @@ function loginAccount(){
                 console.log(data);
                 sessionStorage.setItem('token', data['token']);
                 sessionStorage.setItem('data', data['data']);
-                location.href = 'http://localhost:2000/home';
+                location.href = 'https://cmp-olx.onrender.com/home';
                 email.classList.remove('border-danger');
                 password.classList.remove('border-danger');
             }

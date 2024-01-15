@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', loginFunction);
 
 const heading = document.getElementById('heading');
 heading.addEventListener('click', () => {
-    location.href = 'http://localhost:2000/home';
+    location.href = 'https://cmp-olx.onrender.com/home';
 });
 
 const addProductPage = document.getElementById('addProduct');
@@ -10,10 +10,10 @@ addProductPage.addEventListener('click', () => {
     const token = sessionStorage.getItem('token');
 
     if(token !== null){
-        location.href = 'http://localhost:2000/addProduct';
+        location.href = 'https://cmp-olx.onrender.com/addProduct';
     }
     else{
-        location.href = 'http://localhost:2000/login';
+        location.href = 'https://cmp-olx.onrender.com/login';
     }
 });
 
@@ -34,7 +34,7 @@ function loginFunction(){
     const urlData = window.location.href.split('/').pop();
     console.log(token);
 
-    const apiUrl = `http://localhost:2000/item/profile/${urlData}`;
+    const apiUrl = `https://cmp-olx.onrender.com/item/profile/${urlData}`;
     const options = {
         method: 'GET',
     }
@@ -114,14 +114,14 @@ function createElement(image, productName, overview, id){
 
 function changeView(event, itemId){
     sessionStorage.setItem('item', itemId);
-    location.href = `http://localhost:2000/home/item/${itemId}`;
+    location.href = `https://cmp-olx.onrender.com/home/item/${itemId}`;
 }
 
 function deleteItem(event, itemId){
     console.log(event);
     console.log(itemId);
 
-    const apiUrl = `http://localhost:2000/item/${itemId}`;
+    const apiUrl = `https://cmp-olx.onrender.com/item/${itemId}`;
     const options = {
         method: 'DELETE',
     };
@@ -156,7 +156,7 @@ function query(){
     loadingRing.style.display = 'block';
 
 
-    const apiUrl = `http://localhost:2000/item/search/${search}`;
+    const apiUrl = `https://cmp-olx.onrender.com/item/search/${search}`;
     const options = {
         method : 'GET',
     }
@@ -205,7 +205,7 @@ function pageChange(key, event){
     // console.log(key);
     // console.log(event);
     sessionStorage.setItem('item', key);
-    location.href = `http://localhost:2000/home/item/${key}`;
+    location.href = `https://cmp-olx.onrender.com/home/item/${key}`;
 }
 
 

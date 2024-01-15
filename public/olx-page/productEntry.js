@@ -118,7 +118,7 @@ function addProduct(){
     formData.append('files', image.files[2]);
 
 
-    const apiUrl = 'http://localhost:2000/addProduct';
+    const apiUrl = 'https://cmp-olx.onrender.com/addProduct';
 
     const options = {
         method: 'POST',
@@ -158,7 +158,7 @@ function validPhoneNumber(number){
 
 const changeLocation = document.getElementById('heading');
 changeLocation.addEventListener('click', () => {
-    location.href = 'http://localhost:2000/home';
+    location.href = 'https://cmp-olx.onrender.com/home';
 });
 
 function auto_grow(element) {

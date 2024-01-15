@@ -45,7 +45,7 @@ function createAccount(){
         return;
     }
     else{
-        const apiUrl = 'http://localhost:2000/signIn';
+        const apiUrl = 'https://cmp-olx.onrender.com/signIn';
         const options = {
             method:'POST',
             headers:{
@@ -84,13 +84,13 @@ function createAccount(){
 
 const homePage = document.querySelector('.homepage');
 homePage.addEventListener('click', () => {
-    location.href = 'http://localhost:2000/home';
+    location.href = 'https://cmp-olx.onrender.com/home';
 });
 
 
 const loginpage = document.getElementById('loginpage');
 loginpage.addEventListener('click', () => {
-    location.href = 'http://localhost:2000/login';
+    location.href = 'https://cmp-olx.onrender.com/login';
 });
 
 
